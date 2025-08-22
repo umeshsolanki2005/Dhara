@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
   AppBar,
@@ -6,136 +6,109 @@ import {
   Typography,
   Button,
   Box,
-  IconButton,
+  Avatar,
   Menu,
   MenuItem,
-  Avatar,
-  Chip,
+  IconButton,
+  useTheme,
+  useMediaQuery,
+  Badge,
 } from '@mui/material';
 import {
-  Palette as PaletteIcon,
-  AccountCircle,
   Menu as MenuIcon,
+  AccountCircle as AccountCircleIcon,
+  Logout as LogoutIcon,
+  Person as PersonIcon,
+  Upload as UploadIcon,
+  Home as HomeIcon,
+  Favorite as WishlistIcon,
+  Map as MapIcon,
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
-  const { user, isAuthenticated, logout, isArtist } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [mobileMenuAnchor, setMobileMenuAnchor] = useState(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [mobileMenuAnchor, setMobileMenuAnchor] = React.useState(null);
 
-  const handleProfileMenuOpen = (event) => {
+  // Mock wishlist count - in real app this would come from context/state
+  const wishlistCount = 3;
+
+  const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   const handleMobileMenuOpen = (event) => {
     setMobileMenuAnchor(event.currentTarget);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
+  const handleMobileMenuClose = () => {
     setMobileMenuAnchor(null);
   };
 
   const handleLogout = () => {
     logout();
     handleMenuClose();
+    handleMobileMenuClose();
     navigate('/');
   };
 
   const handleProfileClick = () => {
+    if (user?.isArtist) {
+      navigate(`/artist/${user._id}`);
+    } else {
+      navigate('/profile');
+    }
     handleMenuClose();
-    navigate(`/artist/${user?._id}`);
+    handleMobileMenuClose();
   };
 
   const handleUploadClick = () => {
-    handleMenuClose();
     navigate('/upload');
+    handleMenuClose();
+    handleMobileMenuClose();
   };
 
-  const menuId = 'primary-search-account-menu';
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      id={menuId}
-      keepMounted
-      open={Boolean(anchorEl)}
-      onClose={handleMenuClose}
-      PaperProps={{
-        sx: {
-          mt: 1,
-          minWidth: 200,
-        },
-      }}
-    >
-      <MenuItem onClick={handleProfileClick}>
-        <AccountCircle sx={{ mr: 2 }} />
-        Profile
-      </MenuItem>
-      {isArtist && (
-        <MenuItem onClick={handleUploadClick}>
-          <PaletteIcon sx={{ mr: 2 }} />
-          Upload Artwork
-        </MenuItem>
-      )}
-      <MenuItem onClick={handleLogout}>Logout</MenuItem>
-    </Menu>
-  );
-
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMenuAnchor}
-      id={mobileMenuId}
-      keepMounted
-      open={Boolean(mobileMenuAnchor)}
-      onClose={handleMenuClose}
-      PaperProps={{
-        sx: {
-          mt: 1,
-          minWidth: 200,
-        },
-      }}
-    >
-      <MenuItem onClick={() => { handleMenuClose(); navigate('/home'); }}>
-        Home
-      </MenuItem>
-      {isArtist && (
-        <MenuItem onClick={handleUploadClick}>
-          Upload Artwork
-        </MenuItem>
-      )}
-      <MenuItem onClick={handleProfileClick}>
-        Profile
-      </MenuItem>
-      <MenuItem onClick={handleLogout}>Logout</MenuItem>
-    </Menu>
-  );
+  const handleHomeClick = () => {
+    navigate('/home');
+    handleMenuClose();
+    handleMobileMenuClose();
+  };
 
   return (
-    <AppBar position="sticky" elevation={2} sx={{ bgcolor: 'primary.main' }}>
-      <Toolbar>
-        {/* Logo and Brand */}
-        <Box
-          component={RouterLink}
-          to="/"
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            textDecoration: 'none',
-            color: 'inherit',
-            flexGrow: 1,
-          }}
-        >
-          <PaletteIcon sx={{ mr: 1, fontSize: 32 }} />
+    <AppBar
+      position="sticky"
+      sx={{
+        bgcolor: 'white',
+        color: 'primary.main',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+        borderBottom: '1px solid',
+        borderColor: 'grey.200',
+      }}
+    >
+      <Toolbar sx={{ justifyContent: 'space-between' }}>
+        {/* Logo/Brand */}
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography
-            variant="h6"
-            noWrap
+            variant="h5"
+            component={RouterLink}
+            to="/"
             sx={{
+              fontFamily: '"Noto Serif", serif',
               fontWeight: 700,
+              color: 'primary.main',
+              textDecoration: 'none',
               letterSpacing: '.1rem',
+              '&:hover': {
+                color: 'primary.dark',
+              },
             }}
           >
             Dhara
@@ -143,92 +116,253 @@ const Navbar = () => {
         </Box>
 
         {/* Desktop Navigation */}
-        <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
-          {isAuthenticated ? (
-            <>
-              <Button
-                color="inherit"
-                component={RouterLink}
-                to="/home"
-                sx={{ mx: 1 }}
-              >
-                Gallery
-              </Button>
-              {isArtist && (
+        {!isMobile && (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            {user && (
+              <>
                 <Button
-                  color="inherit"
                   component={RouterLink}
-                  to="/upload"
-                  sx={{ mx: 1 }}
+                  to="/home"
+                  startIcon={<HomeIcon />}
+                  sx={{
+                    color: 'primary.main',
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    fontFamily: '"Poppins", sans-serif',
+                    '&:hover': {
+                      bgcolor: 'primary.main',
+                      color: 'white',
+                    },
+                  }}
                 >
-                  Upload
+                  Home
                 </Button>
-              )}
-              <Box sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
-                {isArtist && (
-                  <Chip
-                    label="Artist"
-                    size="small"
-                    color="secondary"
-                    sx={{ mr: 1 }}
-                  />
-                )}
-                <IconButton
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={handleProfileMenuOpen}
-                  color="inherit"
+                
+                <Button
+                  component={RouterLink}
+                  to="/wishlist"
+                  startIcon={
+                    <Badge badgeContent={wishlistCount} color="error">
+                      <WishlistIcon />
+                    </Badge>
+                  }
+                  sx={{
+                    color: 'primary.main',
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    fontFamily: '"Poppins", sans-serif',
+                    '&:hover': {
+                      bgcolor: 'primary.main',
+                      color: 'white',
+                    },
+                  }}
                 >
-                  <Avatar
-                    sx={{ width: 32, height: 32, bgcolor: 'secondary.main' }}
+                  Wishlist
+                </Button>
+                
+                <Button
+                  component={RouterLink}
+                  to="/map"
+                  startIcon={<MapIcon />}
+                  sx={{
+                    color: 'primary.main',
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    fontFamily: '"Poppins", sans-serif',
+                    '&:hover': {
+                      bgcolor: 'primary.main',
+                      color: 'white',
+                    },
+                  }}
+                >
+                  Find Near Me
+                </Button>
+                
+                {user.isArtist && (
+                  <Button
+                    component={RouterLink}
+                    to="/upload"
+                    startIcon={<UploadIcon />}
+                    sx={{
+                      color: 'primary.main',
+                      textTransform: 'none',
+                      fontWeight: 600,
+                      fontFamily: '"Poppins", sans-serif',
+                      '&:hover': {
+                        bgcolor: 'primary.main',
+                        color: 'white',
+                      },
+                    }}
                   >
-                    {user?.username?.charAt(0)?.toUpperCase() || 'U'}
-                  </Avatar>
+                    Upload Art
+                  </Button>
+                )}
+              </>
+            )}
+          </Box>
+        )}
+
+        {/* User Menu */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          {user ? (
+            <>
+              {/* Mobile Menu Button */}
+              {isMobile && (
+                <IconButton
+                  onClick={handleMobileMenuOpen}
+                  sx={{ color: 'primary.main' }}
+                >
+                  <MenuIcon />
                 </IconButton>
-              </Box>
+              )}
+
+              {/* User Avatar */}
+              <IconButton
+                onClick={handleMenuOpen}
+                sx={{ color: 'primary.main' }}
+              >
+                {user.profileImage ? (
+                  <Avatar
+                    src={user.profileImage}
+                    sx={{ width: 32, height: 32 }}
+                  />
+                ) : (
+                  <AccountCircleIcon />
+                )}
+              </IconButton>
+
+              {/* Desktop User Menu */}
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                PaperProps={{
+                  sx: {
+                    mt: 1,
+                    minWidth: 200,
+                    borderRadius: 2,
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+                  },
+                }}
+              >
+                <MenuItem onClick={handleProfileClick}>
+                  <PersonIcon sx={{ mr: 2, color: 'primary.main' }} />
+                  Profile
+                </MenuItem>
+                {user.isArtist && (
+                  <MenuItem onClick={handleUploadClick}>
+                    <UploadIcon sx={{ mr: 2, color: 'primary.main' }} />
+                    Upload Art
+                  </MenuItem>
+                )}
+                <MenuItem onClick={handleLogout}>
+                  <LogoutIcon sx={{ mr: 2, color: 'error.main' }} />
+                  Logout
+                </MenuItem>
+              </Menu>
+
+              {/* Mobile Menu */}
+              <Menu
+                anchorEl={mobileMenuAnchor}
+                open={Boolean(mobileMenuAnchor)}
+                onClose={handleMobileMenuClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                PaperProps={{
+                  sx: {
+                    mt: 1,
+                    minWidth: 200,
+                    borderRadius: 2,
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+                  },
+                }}
+              >
+                <MenuItem onClick={handleHomeClick}>
+                  <HomeIcon sx={{ mr: 2, color: 'primary.main' }} />
+                  Home
+                </MenuItem>
+                <MenuItem onClick={() => { navigate('/wishlist'); handleMobileMenuClose(); }}>
+                  <Badge badgeContent={wishlistCount} color="error">
+                    <WishlistIcon sx={{ mr: 2, color: 'primary.main' }} />
+                  </Badge>
+                  Wishlist
+                </MenuItem>
+                <MenuItem onClick={() => { navigate('/map'); handleMobileMenuClose(); }}>
+                  <MapIcon sx={{ mr: 2, color: 'primary.main' }} />
+                  Find Near Me
+                </MenuItem>
+                <MenuItem onClick={handleProfileClick}>
+                  <PersonIcon sx={{ mr: 2, color: 'primary.main' }} />
+                  Profile
+                </MenuItem>
+                {user.isArtist && (
+                  <MenuItem onClick={handleUploadClick}>
+                    <UploadIcon sx={{ mr: 2, color: 'primary.main' }} />
+                    Upload Art
+                  </MenuItem>
+                )}
+                <MenuItem onClick={handleLogout}>
+                  <LogoutIcon sx={{ mr: 2, color: 'error.main' }} />
+                  Logout
+                </MenuItem>
+              </Menu>
             </>
           ) : (
-            <>
+            <Box sx={{ display: 'flex', gap: 1 }}>
               <Button
-                color="inherit"
                 component={RouterLink}
                 to="/login"
-                sx={{ mx: 1 }}
+                variant="outlined"
+                sx={{
+                  borderColor: 'primary.main',
+                  color: 'primary.main',
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  fontFamily: '"Poppins", sans-serif',
+                  '&:hover': {
+                    borderColor: 'primary.dark',
+                    bgcolor: 'primary.main',
+                    color: 'white',
+                  },
+                }}
               >
                 Login
               </Button>
               <Button
-                variant="contained"
-                color="secondary"
                 component={RouterLink}
                 to="/register"
-                sx={{ mx: 1 }}
+                variant="contained"
+                sx={{
+                  bgcolor: 'primary.main',
+                  color: 'white',
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  fontFamily: '"Poppins", sans-serif',
+                  '&:hover': {
+                    bgcolor: 'primary.dark',
+                  },
+                }}
               >
                 Register
               </Button>
-            </>
+            </Box>
           )}
         </Box>
-
-        {/* Mobile Menu Button */}
-        <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-          <IconButton
-            size="large"
-            aria-label="show more"
-            aria-controls={mobileMenuId}
-            aria-haspopup="true"
-            onClick={handleMobileMenuOpen}
-            color="inherit"
-          >
-            <MenuIcon />
-          </IconButton>
-        </Box>
       </Toolbar>
-
-      {renderMenu}
-      {renderMobileMenu}
     </AppBar>
   );
 };

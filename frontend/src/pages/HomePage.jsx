@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Container,
@@ -9,148 +10,226 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  CircularProgress,
-  Alert,
-  Chip,
   InputAdornment,
+  Paper,
+  Tabs,
+  Tab,
+  Alert,
+  CircularProgress,
 } from '@mui/material';
 import {
   Search as SearchIcon,
-  FilterList as FilterIcon,
+  Clear as ClearIcon,
 } from '@mui/icons-material';
-import axios from 'axios';
+import { IconButton } from '@mui/material';
 import ArtCard from '../components/ArtCard';
+import ArtistCard from '../components/ArtistCard';
+import {
+  getAllArtworks,
+  getArtworksByCategory,
+  searchArtworksAndArtists,
+  getCategories,
+} from '../data/artistsData';
 
 const HomePage = () => {
-  const [artworks, setArtworks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('');
-  const [favorites, setFavorites] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [activeTab, setActiveTab] = useState(0);
+  const [filteredArtworks, setFilteredArtworks] = useState([]);
+  const [searchResults, setSearchResults] = useState({ artworks: [], artists: [] });
+  const [isSearching, setIsSearching] = useState(false);
 
-  const categories = [
-    'All',
-    'Painting',
-    'Sculpture',
-    'Textile',
-    'Pottery',
-    'Jewelry',
-    'Other',
-  ];
+  // Get all artworks and categories
+  const allArtworks = getAllArtworks();
+  const categories = getCategories();
 
   useEffect(() => {
-    fetchArtworks();
-  }, []);
-
-  const fetchArtworks = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get('/api/artworks');
-      setArtworks(response.data);
-    } catch (err) {
-      console.error('Error fetching artworks:', err);
-      setError('Failed to load artworks. Please try again later.');
-    } finally {
-      setLoading(false);
+    // Apply category filter
+    if (selectedCategory === 'All') {
+      setFilteredArtworks(allArtworks);
+    } else {
+      setFilteredArtworks(getArtworksByCategory(selectedCategory));
     }
+  }, [selectedCategory, allArtworks]);
+
+  useEffect(() => {
+    // Handle search
+    if (searchTerm.trim() === '') {
+      setSearchResults({ artworks: [], artists: [] });
+      setIsSearching(false);
+      return;
+    }
+
+    setIsSearching(true);
+    const results = searchArtworksAndArtists(searchTerm);
+    setSearchResults(results);
+    setIsSearching(false);
+  }, [searchTerm]);
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
-  const handleFavoriteToggle = (artworkId) => {
-    setFavorites(prev => {
-      if (prev.includes(artworkId)) {
-        return prev.filter(id => id !== artworkId);
-      } else {
-        return [...prev, artworkId];
-      }
-    });
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+    setSearchTerm(''); // Clear search when category changes
   };
 
-  const filteredArtworks = artworks.filter(artwork => {
-    const matchesSearch = artwork.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         artwork.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         artwork.tags?.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
-    
-    const matchesCategory = categoryFilter === '' || categoryFilter === 'All' || 
-                           artwork.category === categoryFilter;
-    
-    return matchesSearch && matchesCategory;
-  });
+  const handleClearSearch = () => {
+    setSearchTerm('');
+    setSearchResults({ artworks: [], artists: [] });
+  };
 
-  if (loading) {
-    return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        minHeight="60vh"
-      >
-        <CircularProgress size={60} color="primary" />
-      </Box>
-    );
-  }
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
+
+  const handleArtistClick = (artistId) => {
+    navigate(`/artist/${artistId}`);
+  };
+
+  const handleArtworkClick = (artwork) => {
+    // Navigate to external link for artwork info
+    window.open(artwork.infoLink, '_blank');
+  };
+
+  const handleLike = (artworkId, isLiked) => {
+    // In real app, this would update the backend
+    console.log(`${isLiked ? 'Liked' : 'Unliked'} artwork:`, artworkId);
+  };
+
+  const handleWishlist = (artworkId, isInWishlist) => {
+    // In real app, this would update the backend
+    console.log(`${isInWishlist ? 'Added to' : 'Removed from'} wishlist:`, artworkId);
+  };
+
+  const handleComment = (artworkId, comment) => {
+    // In real app, this would update the backend
+    console.log('Added comment to artwork:', artworkId, comment);
+  };
+
+  const handleShare = (artworkId) => {
+    // In real app, this would track sharing
+    console.log('Shared artwork:', artworkId);
+  };
+
+  const handleBuy = (artwork) => {
+    // In real app, this would navigate to checkout
+    alert(`Redirecting to checkout for ${artwork.title}`);
+  };
+
+  // Determine what to display
+  const hasSearchResults = searchTerm.trim() !== '';
+  const displayArtworks = hasSearchResults ? searchResults.artworks : filteredArtworks;
+  const displayArtists = hasSearchResults ? searchResults.artists : [];
 
   return (
-    <Box sx={{ py: 4, minHeight: '100vh', bgcolor: 'background.default' }}>
-      <Container maxWidth="lg">
-        {/* Header */}
-        <Box sx={{ textAlign: 'center', mb: 6 }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
+      {/* Hero Section */}
+      <Box
+        sx={{
+          background: `
+            linear-gradient(135deg, rgba(255, 107, 53, 0.9) 0%, rgba(139, 69, 19, 0.9) 50%, rgba(30, 58, 138, 0.9) 100%),
+            url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><pattern id="folk-pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.15)"/><circle cx="20" cy="20" r="6" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><circle cx="20" cy="20" r="12" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/></pattern></defs><rect width="200" height="200" fill="url(%23folk-pattern)"/></svg>')
+          `,
+          color: 'white',
+          py: 6,
+          mb: 4,
+          borderRadius: 3,
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        <Container maxWidth="lg">
           <Typography
             variant="h3"
             component="h1"
+            textAlign="center"
             gutterBottom
             sx={{
               fontWeight: 700,
-              color: 'primary.main',
-              mb: 2,
+              mb: 3,
+              fontFamily: '"Noto Serif", serif',
+              textShadow: '2px 2px 8px rgba(0,0,0,0.3)',
             }}
           >
-            Folk Art Gallery
+            Discover Indian Folk Art
           </Typography>
           <Typography
             variant="h6"
-            color="text.secondary"
-            sx={{ fontWeight: 300, maxWidth: 600, mx: 'auto' }}
+            textAlign="center"
+            sx={{
+              opacity: 0.9,
+              fontFamily: '"Poppins", sans-serif',
+              textShadow: '1px 1px 4px rgba(0,0,0,0.3)',
+              maxWidth: 600,
+              mx: 'auto',
+            }}
           >
-            Discover beautiful traditional and contemporary folk art from talented artists around the world
+            Explore the rich heritage of Indian folk art through our curated collection of paintings, sculptures, textiles, and more
           </Typography>
-        </Box>
+        </Container>
+      </Box>
 
-        {/* Search and Filters */}
-        <Box sx={{ mb: 4 }}>
+      <Container maxWidth="lg">
+        {/* Search and Filter Section */}
+        <Paper
+          elevation={2}
+          sx={{
+            p: 3,
+            mb: 4,
+            borderRadius: 3,
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,248,248,0.9) 100%)',
+          }}
+        >
           <Grid container spacing={3} alignItems="center">
+            {/* Search Bar */}
             <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
-                placeholder="Search artworks, artists, or tags..."
+                placeholder="Search artworks or artists..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={handleSearchChange}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
                       <SearchIcon color="primary" />
                     </InputAdornment>
                   ),
+                                     endAdornment: searchTerm && (
+                     <InputAdornment position="end">
+                       <IconButton
+                         size="small"
+                         onClick={handleClearSearch}
+                         sx={{ color: 'text.secondary' }}
+                       >
+                         <ClearIcon />
+                       </IconButton>
+                     </InputAdornment>
+                   ),
                 }}
                 sx={{
                   '& .MuiOutlinedInput-root': {
-                    borderRadius: 3,
+                    borderRadius: 2,
+                    bgcolor: 'white',
                   },
                 }}
               />
             </Grid>
-            <Grid item xs={12} md={3}>
+
+            {/* Category Filter */}
+            <Grid item xs={12} md={6}>
               <FormControl fullWidth>
                 <InputLabel>Category</InputLabel>
                 <Select
-                  value={categoryFilter}
+                  value={selectedCategory}
                   label="Category"
-                  onChange={(e) => setCategoryFilter(e.target.value)}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <FilterIcon color="primary" />
-                    </InputAdornment>
-                  }
+                  onChange={handleCategoryChange}
+                  sx={{
+                    borderRadius: 2,
+                    bgcolor: 'white',
+                  }}
                 >
                   {categories.map((category) => (
                     <MenuItem key={category} value={category}>
@@ -160,68 +239,204 @@ const HomePage = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={3}>
-              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Chip
-                  label={`${filteredArtworks.length} artworks found`}
-                  color="primary"
-                  variant="outlined"
-                  sx={{ fontWeight: 600 }}
-                />
-              </Box>
-            </Grid>
           </Grid>
-        </Box>
 
-        {/* Error Display */}
-        {error && (
-          <Alert severity="error" sx={{ mb: 4 }}>
-            {error}
-          </Alert>
+          {/* Search Results Tabs */}
+          {hasSearchResults && (
+            <Box sx={{ mt: 3 }}>
+              <Tabs
+                value={activeTab}
+                onChange={handleTabChange}
+                sx={{
+                  '& .MuiTab-root': {
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    fontFamily: '"Poppins", sans-serif',
+                  },
+                }}
+              >
+                <Tab
+                  label={`Artworks (${searchResults.artworks.length})`}
+                  disabled={searchResults.artworks.length === 0}
+                />
+                <Tab
+                  label={`Artists (${searchResults.artists.length})`}
+                  disabled={searchResults.artists.length === 0}
+                />
+              </Tabs>
+            </Box>
+          )}
+        </Paper>
+
+        {/* Loading State */}
+        {isSearching && (
+          <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
+            <CircularProgress />
+          </Box>
         )}
 
-        {/* Artworks Grid */}
-        {filteredArtworks.length > 0 ? (
-          <Grid container spacing={3}>
-            {filteredArtworks.map((artwork) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={artwork._id}>
-                <ArtCard
-                  artwork={artwork}
-                  onFavoriteToggle={handleFavoriteToggle}
-                  isFavorited={favorites.includes(artwork._id)}
-                />
+        {/* Search Results */}
+        {hasSearchResults && !isSearching && (
+          <>
+            {/* Artworks Tab */}
+            {activeTab === 0 && searchResults.artworks.length > 0 && (
+              <Box sx={{ mb: 4 }}>
+                <Typography
+                  variant="h5"
+                  component="h2"
+                  gutterBottom
+                  sx={{
+                    fontWeight: 700,
+                    color: 'primary.main',
+                    fontFamily: '"Noto Serif", serif',
+                    mb: 3,
+                  }}
+                >
+                  Search Results: Artworks
+                </Typography>
+                <Grid container spacing={3}>
+                  {searchResults.artworks.map((artwork) => (
+                    <Grid item xs={12} sm={6} md={4} lg={3} key={artwork.id}>
+                      <ArtCard artwork={artwork} />
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            )}
+
+            {/* Artists Tab */}
+            {activeTab === 1 && searchResults.artists.length > 0 && (
+              <Box sx={{ mb: 4 }}>
+                <Typography
+                  variant="h5"
+                  component="h2"
+                  gutterBottom
+                  sx={{
+                    fontWeight: 700,
+                    color: 'primary.main',
+                    fontFamily: '"Noto Serif", serif',
+                    mb: 3,
+                  }}
+                >
+                  Search Results: Artists
+                </Typography>
+                <Grid container spacing={3}>
+                  {searchResults.artists.map((artist) => (
+                    <Grid item xs={12} sm={6} md={4} key={artist.id}>
+                      <ArtistCard artist={artist} />
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            )}
+
+            {/* No Results */}
+            {searchResults.artworks.length === 0 && searchResults.artists.length === 0 && (
+              <Alert severity="info" sx={{ mb: 4 }}>
+                No results found for "{searchTerm}". Try different keywords or browse by category.
+              </Alert>
+            )}
+          </>
+        )}
+
+        {/* Category Gallery (when not searching) */}
+        {!hasSearchResults && (
+          <>
+            {/* Category Header */}
+            <Box sx={{ mb: 4 }}>
+              <Typography
+                variant="h4"
+                component="h2"
+                gutterBottom
+                sx={{
+                  fontWeight: 700,
+                  color: 'primary.main',
+                  fontFamily: '"Noto Serif", serif',
+                  textAlign: 'center',
+                }}
+              >
+                {selectedCategory === 'All' ? 'All Artworks' : `${selectedCategory} Collection`}
+              </Typography>
+              <Typography
+                variant="h6"
+                textAlign="center"
+                sx={{
+                  color: 'text.secondary',
+                  fontFamily: '"Poppins", sans-serif',
+                  maxWidth: 600,
+                  mx: 'auto',
+                }}
+              >
+                {selectedCategory === 'All' 
+                  ? `Explore our complete collection of ${displayArtworks.length} artworks from talented Indian artists`
+                  : `Discover beautiful ${selectedCategory.toLowerCase()} pieces created by skilled artisans`
+                }
+              </Typography>
+            </Box>
+
+            {/* Artworks Grid */}
+            {displayArtworks.length > 0 ? (
+              <Grid container spacing={3}>
+                                    {displayArtworks.map((artwork) => (
+                      <Grid item xs={12} sm={6} md={4} lg={3} key={artwork.id}>
+                        <ArtCard 
+                          artwork={artwork}
+                          onLike={handleLike}
+                          onWishlist={handleWishlist}
+                          onComment={handleComment}
+                          onShare={handleShare}
+                          onBuy={handleBuy}
+                        />
+                      </Grid>
+                    ))}
               </Grid>
-            ))}
-          </Grid>
-        ) : (
-          <Box
+            ) : (
+              <Alert severity="info">
+                No artworks found in the {selectedCategory} category. Try selecting a different category.
+              </Alert>
+            )}
+          </>
+        )}
+
+        {/* Footer */}
+        <Box
+          component="footer"
+          sx={{
+            mt: 8,
+            py: 4,
+            borderTop: '1px solid',
+            borderColor: 'grey.200',
+            textAlign: 'center',
+          }}
+        >
+          <Typography
+            variant="body2"
+            color="text.secondary"
             sx={{
-              textAlign: 'center',
-              py: 8,
-              bgcolor: 'grey.50',
-              borderRadius: 3,
+              fontFamily: '"Poppins", sans-serif',
             }}
           >
-            <Typography variant="h6" color="text.secondary" gutterBottom>
-              No artworks found
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {searchTerm || categoryFilter !== '' 
-                ? 'Try adjusting your search or filters'
-                : 'Check back later for new artworks'
-              }
-            </Typography>
+            © 2025 Dhara – Celebrating Indian Folk Arts
+          </Typography>
+          <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center', gap: 3 }}>
+            {['Home', 'Categories', 'About', 'Contact'].map((link) => (
+              <Typography
+                key={link}
+                variant="body2"
+                sx={{
+                  color: 'primary.main',
+                  cursor: 'pointer',
+                  fontFamily: '"Poppins", sans-serif',
+                  '&:hover': {
+                    textDecoration: 'underline',
+                  },
+                }}
+              >
+                {link}
+              </Typography>
+            ))}
           </Box>
-        )}
-
-        {/* Load More Button (if needed) */}
-        {filteredArtworks.length > 0 && (
-          <Box sx={{ textAlign: 'center', mt: 6 }}>
-            <Typography variant="body2" color="text.secondary">
-              Showing {filteredArtworks.length} of {artworks.length} artworks
-            </Typography>
-          </Box>
-        )}
+        </Box>
       </Container>
     </Box>
   );

@@ -1,224 +1,311 @@
-# 🎨 Folk Art & Culture Platform
+# 🎨 Dhara - Indian Folk Art Gallery
 
-A comprehensive web platform for preserving, showcasing, and promoting folk art & culture. Built for a 1-day hackathon with modern web technologies.
+**Dhara** is a comprehensive folk art gallery website celebrating Indian culture and art. The platform allows artists to showcase their work and users to discover authentic Indian folk art forms.
 
 ## ✨ Features
 
-- **User Authentication** - Secure JWT-based login/registration
-- **Artist Profiles** - Dedicated artist registration and profiles
-- **Artwork Gallery** - Beautiful grid layout with search and filtering
-- **Artwork Upload** - Comprehensive form for artists to submit work
-- **Responsive Design** - Mobile-first approach with Material UI
-- **Modern UI/UX** - Clean, intuitive interface with warm colors
+### 🏠 **Landing Page**
+- Dynamic "Dhara" title in 9 Indian languages with smooth animations
+- Indian folk art background patterns (Madhubani, Warli, Mandala)
+- Local artwork showcase with Wikipedia integration
+- Cultural theme with warm earthy tones
+- Responsive design with Material UI components
 
-## 🛠 Tech Stack
+### 🔍 **Home Page (After Login)**
+- **Search Functionality**: Search artworks by name or artist by name
+- **Category Filtering**: Filter by Painting, Sculpture, Textile, Pottery, Jewelry, Other
+- **Artwork Grid**: Display artworks with images, titles, artist names, and descriptions
+- **Artist Search Results**: Tabbed interface showing artworks vs. artists
+- **External Links**: Clickable artwork titles linking to Wikipedia resources
 
-### Backend
-- **Node.js** with Express.js
+### 👨‍🎨 **Artist Profiles**
+- **20 Dummy Indian Artists** with authentic names and locations
+- **15+ Artworks per Artist** with detailed information
+- **Profile Information**: Bio, location, profile image, artwork count
+- **Artwork Gallery**: Grid display of artist's works with external links
+- **Navigation**: Back to gallery functionality
+
+### 🎭 **Artwork Categories**
+- **Painting**: Madhubani, Warli, Pattachitra, Tanjore, Kalamkari
+- **Sculpture**: Stone, metal, clay, traditional Indian forms
+- **Textile**: Silk, cotton, embroidery, handloom fabrics
+- **Pottery**: Traditional clay work, ceramic art
+- **Jewelry**: Gold, silver, gemstone pieces
+- **Other**: Mixed media, digital art, woodwork
+
+### 🔐 **Authentication & Navigation**
+- **User Registration & Login** with JWT authentication
+- **Protected Routes** for authenticated users
+- **Responsive Navbar** with Dhara branding
+- **User Menu** with profile and upload options
+- **Mobile-friendly** navigation
+
+## 🛠️ Technical Stack
+
+### **Frontend**
+- **React 18** with Vite build tool
+- **Material UI (MUI)** for components and theming
+- **React Router** for navigation
+- **Custom Theme** with Indian folk art color palette
+- **Responsive Design** for all devices
+
+### **Backend** (Ready for Integration)
+- **Node.js** with Express framework
 - **MongoDB** with Mongoose ODM
 - **JWT Authentication** with bcrypt password hashing
-- **RESTful API** design
+- **RESTful API** endpoints
+- **File Upload** support with Multer
 
-### Frontend
-- **React 18** with functional components and hooks
-- **Material UI 5** for beautiful, accessible components
-- **React Router 6** for client-side routing
-- **Vite** for fast development and building
-- **Axios** for API communication
+### **Data Structure**
+- **20 Artists** × **15+ Artworks** = **300+ Total Artworks**
+- **Comprehensive Metadata**: Title, category, description, year, external links
+- **Artist Information**: Name, bio, location, profile image, specialty
+- **Helper Functions**: Search, filtering, categorization
 
-## 🚀 Quick Start
+## 🚀 Getting Started
 
-### Prerequisites
+### **Prerequisites**
 - Node.js (v16 or higher)
-- MongoDB (running locally or cloud instance)
-- npm or yarn
+- npm or yarn package manager
+- Modern web browser
 
-### 1. Clone the Repository
-```bash
-git clone <repository-url>
-cd folk-art-platform
-```
+### **Installation**
 
-### 2. Backend Setup
-```bash
-cd backend
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd dhara-folk-art-gallery
+   ```
 
-# Install dependencies
-npm install
+2. **Install frontend dependencies**
+   ```bash
+   cd frontend
+   npm install
+   ```
 
-# Create .env file (copy from .env.example if available)
-echo "MONGODB_URI=mongodb://localhost:27017/folk-art-platform
-JWT_SECRET=your-super-secret-jwt-key-for-hackathon
-PORT=5000" > .env
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
 
-# Start the server
-npm run dev
-```
+4. **Open your browser**
+   - Navigate to `http://localhost:3000`
+   - The application will open with the landing page
 
-### 3. Frontend Setup
-```bash
-cd frontend
+### **Backend Setup** (Optional)
+1. **Navigate to backend directory**
+   ```bash
+   cd ../backend
+   npm install
+   ```
 
-# Install dependencies
-npm install
+2. **Create environment file**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your MongoDB connection string
+   ```
 
-# Start development server
-npm run dev
-```
-
-### 4. Seed Sample Data (Optional)
-```bash
-cd backend
-node seeder.js
-```
-
-## 📱 Demo Accounts
-
-For testing purposes, you can use these pre-created accounts:
-
-| Email | Password | Role |
-|-------|----------|------|
-| rajesh@folkart.com | password123 | Potter |
-| meera@folkart.com | password123 | Weaver |
-| amit@folkart.com | password123 | Painter |
-| priya@folkart.com | password123 | Jewelry Maker |
-
-## 🌐 API Endpoints
-
-### Authentication
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `GET /api/auth/me` - Get current user profile
-
-### Artworks
-- `GET /api/artworks` - Get all artworks
-- `GET /api/artworks/:id` - Get artwork by ID
-- `POST /api/artworks/upload` - Upload new artwork (protected)
-- `PUT /api/artworks/:id` - Update artwork (protected)
-- `DELETE /api/artworks/:id` - Delete artwork (protected)
-
-### Artists
-- `GET /api/artists` - Get all artists
-- `GET /api/artists/:id` - Get artist profile with artworks
-- `GET /api/artists/:id/artworks` - Get artist's artworks
+3. **Start backend server**
+   ```bash
+   npm run dev
+   ```
 
 ## 📁 Project Structure
 
 ```
-folk-art-platform/
-├── backend/                 # Express.js API server
-│   ├── models/             # MongoDB schemas
-│   ├── routes/             # API route handlers
-│   ├── controllers/        # Business logic
-│   ├── middleware/         # Custom middleware
-│   ├── config/             # Configuration files
-│   ├── server.js           # Main server file
-│   ├── seeder.js           # Sample data seeder
-│   └── package.json        # Backend dependencies
-├── frontend/               # React application
+dhara-folk-art-gallery/
+├── frontend/
 │   ├── src/
-│   │   ├── components/     # Reusable UI components
-│   │   ├── pages/          # Page components
-│   │   ├── context/        # React context providers
-│   │   ├── utils/          # Utility functions
-│   │   ├── App.jsx         # Main app component
-│   │   └── main.jsx        # React entry point
-│   ├── index.html          # HTML template
-│   ├── vite.config.js      # Vite configuration
-│   └── package.json        # Frontend dependencies
-└── README.md               # This file
+│   │   ├── components/
+│   │   │   ├── Navbar.jsx          # Navigation component
+│   │   │   ├── ArtCard.jsx         # Artwork display card
+│   │   │   ├── ArtistCard.jsx      # Artist profile card
+│   │   │   ├── Footer.jsx          # Footer component
+│   │   │   └── ProtectedRoute.jsx  # Authentication guard
+│   │   ├── pages/
+│   │   │   ├── LandingPage.jsx     # Homepage for visitors
+│   │   │   ├── HomePage.jsx        # Gallery after login
+│   │   │   ├── LoginPage.jsx       # User authentication
+│   │   │   ├── RegisterPage.jsx    # User registration
+│   │   │   ├── ArtistProfilePage.jsx # Individual artist page
+│   │   │   └── UploadPage.jsx      # Artwork upload (artists)
+│   │   ├── data/
+│   │   │   └── artistsData.js      # Comprehensive artwork data
+│   │   ├── context/
+│   │   │   └── AuthContext.jsx     # Authentication state
+│   │   ├── theme.js                # Material UI theme
+│   │   └── App.jsx                 # Main application
+│   └── package.json
+├── backend/                         # Express.js backend (ready)
+│   ├── models/                      # MongoDB schemas
+│   ├── routes/                      # API endpoints
+│   ├── middleware/                  # Authentication
+│   └── server.js                    # Server entry point
+└── README.md
 ```
 
-## 🎨 UI Features
+## 🎨 Design Features
 
-- **Warm Color Scheme** - Earthy browns and creams inspired by folk art
-- **Responsive Grid** - Adaptive layout for all device sizes
-- **Material Design** - Google's Material Design principles
-- **Smooth Animations** - Hover effects and transitions
-- **Accessibility** - ARIA labels and keyboard navigation
+### **Color Palette**
+- **Primary**: Saddle Brown (#8B4513) - Earthy folk art color
+- **Secondary**: Gold (#FFD700) - Warm Indian accent
+- **Background**: Cornsilk (#FFF8DC) - Warm, welcoming
+- **Indian Colors**: Saffron, Maroon, Peacock Blue
 
-## 🔒 Security Features
+### **Typography**
+- **Headings**: Noto Serif (serif) for cultural authenticity
+- **Body Text**: Poppins (sans-serif) for readability
+- **Google Fonts** integration for consistent rendering
 
-- **JWT Authentication** - Secure token-based authentication
-- **Password Hashing** - bcrypt for secure password storage
-- **Protected Routes** - Authentication-required endpoints
-- **Input Validation** - Server-side and client-side validation
-- **CORS Configuration** - Secure cross-origin requests
+### **UI Components**
+- **Material UI** components with custom styling
+- **Responsive Grid** layouts for all screen sizes
+- **Hover Effects** and smooth transitions
+- **Card-based** design for artworks and artists
+
+## 🔍 Search & Filter Features
+
+### **Search Functionality**
+- **Real-time Search** as you type
+- **Artwork Search**: Find by title or artist name
+- **Artist Search**: Find by name or bio content
+- **Tabbed Results**: Separate views for artworks vs. artists
+
+### **Category Filtering**
+- **Dynamic Dropdown** with all artwork categories
+- **Instant Filtering** without page reload
+- **Category Headers** with artwork counts
+- **Responsive Grid** layout for filtered results
+
+## 👥 Artist Profiles
+
+### **Featured Artists**
+1. **Meena Iyer** - Madhubani artist from Bihar
+2. **Raghavendra Sharma** - Sculptor from Rajasthan
+3. **Kavita Reddy** - Textile artist from Karnataka
+4. **Arjun Verma** - Pottery artist from Uttar Pradesh
+5. **Aditi Joshi** - Contemporary painter from Maharashtra
+6. **Vikram Nair** - Jewelry designer from Kerala
+7. **Shreya Kapoor** - Mixed media artist from Delhi
+8. **Sanjay Bhatia** - Woodwork craftsman from Punjab
+9. **Priya Deshmukh** - Mythological painter from Madhya Pradesh
+10. **Rohit Kulkarni** - Metal sculptor from Karnataka
+11. **Neha Sinha** - Textile designer from West Bengal
+12. **Anil Gupta** - Pottery artist from Gujarat
+13. **Manisha Rao** - Contemporary artist from Tamil Nadu
+14. **Deepak Menon** - Jewelry designer from Kerala
+15. **Sunita Pillai** - Handloom artist from Karnataka
+16. **Rajesh Kumar** - Stone sculptor from Rajasthan
+17. **Alok Patil** - Spiritual painter from Maharashtra
+18. **Sneha Banerjee** - Cultural heritage artist from West Bengal
+19. **Ajay Chauhan** - Contemporary potter from Uttar Pradesh
+20. **Divya Mishra** - Gemstone jewelry designer from Rajasthan
+
+### **Artwork Information**
+- **High-quality Images** from Unsplash and public sources
+- **Detailed Descriptions** of each piece
+- **External Links** to Wikipedia for learning
+- **Year Information** for historical context
+- **Category Classification** for easy browsing
+
+## 🌐 External Integration
+
+### **Wikipedia Links**
+- **Artwork Information**: Direct links to relevant Wikipedia pages
+- **Cultural Context**: Learn about art forms and techniques
+- **Historical Background**: Understand the significance of each piece
+- **Educational Value**: Rich content for art enthusiasts
+
+### **Image Sources**
+- **Unsplash**: High-quality, royalty-free images
+- **Public Domain**: Accessible artwork representations
+- **Responsive Images**: Optimized for all device sizes
+- **Fallback Handling**: Graceful degradation for missing images
 
 ## 📱 Responsive Design
 
-- **Mobile First** - Designed for mobile devices first
-- **Breakpoint System** - Material UI responsive breakpoints
-- **Touch Friendly** - Optimized for touch interactions
-- **Flexible Layout** - Adaptive grid system
+### **Mobile-First Approach**
+- **Responsive Grid**: Adapts to all screen sizes
+- **Touch-Friendly**: Optimized for mobile devices
+- **Progressive Enhancement**: Enhanced features on larger screens
+- **Performance Optimized**: Fast loading on all devices
 
-## 🚀 Performance Features
+### **Breakpoint Support**
+- **Extra Small**: Mobile phones (xs: 0px+)
+- **Small**: Tablets (sm: 600px+)
+- **Medium**: Small laptops (md: 900px+)
+- **Large**: Desktop (lg: 1200px+)
+- **Extra Large**: Large screens (xl: 1536px+)
 
-- **Code Splitting** - Route-based code splitting
-- **Lazy Loading** - Components loaded on demand
-- **Optimized Builds** - Vite for fast development and building
-- **Image Optimization** - Responsive image handling
+## 🔐 Authentication System
 
-## 🧪 Development
+### **User Management**
+- **Registration**: New user account creation
+- **Login**: Secure authentication with JWT
+- **Protected Routes**: Secure access to gallery features
+- **User Profiles**: Personalized experience for logged-in users
 
-### Backend Development
-```bash
-cd backend
-npm run dev          # Start with nodemon
-npm start           # Start production server
-```
+### **Security Features**
+- **JWT Tokens**: Secure session management
+- **Password Hashing**: bcrypt encryption
+- **Route Protection**: Authentication middleware
+- **Secure Storage**: Local storage for tokens
 
-### Frontend Development
-```bash
-cd frontend
-npm run dev         # Start development server
-npm run build       # Build for production
-npm run preview     # Preview production build
-```
+## 🚀 Future Enhancements
 
-### Database
-```bash
-# Connect to MongoDB
-mongosh mongodb://localhost:27017/folk-art-platform
+### **Planned Features**
+- **Real-time Chat** between artists and buyers
+- **Artwork Marketplace** with payment integration
+- **Artist Workshops** and live sessions
+- **Virtual Gallery Tours** with 3D visualization
+- **Mobile App** for iOS and Android
+- **Social Media Integration** for sharing
+- **Artwork Analytics** for artists
+- **Multi-language Support** for international users
 
-# Seed sample data
-cd backend && node seeder.js
-```
-
-## 🌟 Hackathon Features
-
-This project was built for a 1-day hackathon with:
-
-- **MVP Focus** - Core functionality over perfection
-- **Clean Code** - Well-structured, maintainable code
-- **Modern Stack** - Latest technologies and best practices
-- **Demo Ready** - Working features for presentation
-- **Documentation** - Clear setup and usage instructions
+### **Technical Improvements**
+- **PWA Support** for offline functionality
+- **Advanced Search** with filters and sorting
+- **Image Optimization** and lazy loading
+- **Caching Strategy** for better performance
+- **SEO Optimization** for better discoverability
 
 ## 🤝 Contributing
 
+We welcome contributions to make Dhara even better! Here's how you can help:
+
+### **Development**
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
 4. Test thoroughly
 5. Submit a pull request
 
+### **Areas for Contribution**
+- **UI/UX Improvements**: Better designs and user experience
+- **New Features**: Additional functionality
+- **Performance**: Optimization and speed improvements
+- **Documentation**: Better guides and examples
+- **Testing**: Unit tests and integration tests
+
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
-- **Material UI** for beautiful components
-- **Unsplash** for sample images
-- **MongoDB** for database
-- **Express.js** for backend framework
-- **React** for frontend framework
+- **Indian Folk Artists**: For preserving and sharing our cultural heritage
+- **Material UI Team**: For the excellent component library
+- **Unsplash**: For providing beautiful artwork images
+- **Wikipedia**: For educational content about art forms
+- **Open Source Community**: For the tools and libraries that made this possible
 
-## 📞 Support
+## 📞 Contact
 
-For questions or support, please open an issue in the repository.
+- **Project**: Dhara Folk Art Gallery
+- **Purpose**: Celebrating Indian Culture & Art
+- **Vision**: Preserving and promoting Indian folk art traditions
 
 ---
 
-**Built with ❤️ for the Folk Art & Culture Community**
+**Dhara** - Where tradition meets technology, and culture finds its digital home. 🎨🇮🇳✨

@@ -1,115 +1,159 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box,
   Container,
-  Paper,
   Typography,
   Grid,
   Avatar,
+  Paper,
   Chip,
-  Divider,
-  CircularProgress,
-  Alert,
+  Button,
   Card,
   CardMedia,
   CardContent,
-  Button,
+  IconButton,
+  Alert,
+  CircularProgress,
 } from '@mui/material';
 import {
   LocationOn as LocationIcon,
-  Palette as PaletteIcon,
   CalendarToday as CalendarIcon,
+  Palette as PaletteIcon,
+  ArrowBack as ArrowBackIcon,
+  OpenInNew as OpenInNewIcon,
 } from '@mui/icons-material';
-import axios from 'axios';
-import ArtCard from '../components/ArtCard';
+import { artistsData } from '../data/artistsData';
 
 const ArtistProfilePage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [artist, setArtist] = useState(null);
-  const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchArtistData();
+    // Simulate loading for better UX
+    setLoading(true);
+    
+    // Find artist in our data
+    const foundArtist = artistsData.find(a => a.id === id);
+    
+    if (foundArtist) {
+      setArtist(foundArtist);
+      setError('');
+    } else {
+      setError('Artist not found');
+    }
+    
+    setLoading(false);
   }, [id]);
 
-  const fetchArtistData = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(`/api/artists/${id}`);
-      setArtist(response.data.artist);
-      setArtworks(response.data.artworks);
-    } catch (err) {
-      console.error('Error fetching artist data:', err);
-      setError('Failed to load artist profile. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
+  const handleBackClick = () => {
+    navigate('/home');
+  };
+
+  const handleArtworkClick = (artwork) => {
+    window.open(artwork.infoLink, '_blank');
   };
 
   if (loading) {
     return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        minHeight="60vh"
-      >
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
         <CircularProgress size={60} color="primary" />
       </Box>
     );
   }
 
-  if (error) {
+  if (error || !artist) {
     return (
-      <Container maxWidth="md" sx={{ py: 8 }}>
-        <Alert severity="error">{error}</Alert>
-      </Container>
-    );
-  }
-
-  if (!artist) {
-    return (
-      <Container maxWidth="md" sx={{ py: 8 }}>
-        <Alert severity="warning">Artist not found</Alert>
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Alert severity="error" sx={{ mb: 4 }}>
+          {error || 'Artist not found'}
+        </Alert>
+        <Button
+          variant="outlined"
+          startIcon={<ArrowBackIcon />}
+          onClick={handleBackClick}
+        >
+          Back to Gallery
+        </Button>
       </Container>
     );
   }
 
   return (
-    <Box sx={{ py: 4, minHeight: '100vh', bgcolor: 'background.default' }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
+      {/* Back Button */}
+      <Container maxWidth="lg" sx={{ pt: 3 }}>
+        <Button
+          variant="outlined"
+          startIcon={<ArrowBackIcon />}
+          onClick={handleBackClick}
+          sx={{
+            mb: 3,
+            borderColor: 'primary.main',
+            color: 'primary.main',
+            textTransform: 'none',
+            fontWeight: 600,
+            fontFamily: '"Poppins", sans-serif',
+            '&:hover': {
+              borderColor: 'primary.dark',
+              bgcolor: 'primary.main',
+              color: 'white',
+            },
+          }}
+        >
+          Back to Gallery
+        </Button>
+      </Container>
+
       <Container maxWidth="lg">
-        {/* Artist Profile Header */}
-        <Paper elevation={3} sx={{ p: 4, mb: 4, borderRadius: 3 }}>
+        {/* Artist Header */}
+        <Paper
+          elevation={3}
+          sx={{
+            p: 4,
+            mb: 4,
+            borderRadius: 3,
+            background: `linear-gradient(135deg, ${artist.category === 'Painting' ? '#FF6B35' : 
+              artist.category === 'Sculpture' ? '#8B4513' : 
+              artist.category === 'Textile' ? '#1E3A8A' : 
+              artist.category === 'Pottery' ? '#FFD700' : 
+              artist.category === 'Jewelry' ? '#E91E63' : '#9C27B0'}10, white 100%)`,
+            border: '1px solid',
+            borderColor: 'grey.200',
+          }}
+        >
           <Grid container spacing={4} alignItems="center">
             {/* Artist Avatar */}
             <Grid item xs={12} md={3}>
               <Box sx={{ textAlign: 'center' }}>
                 <Avatar
+                  src={artist.profileImage}
                   sx={{
-                    width: 120,
-                    height: 120,
+                    width: 150,
+                    height: 150,
                     mx: 'auto',
                     mb: 2,
-                    bgcolor: 'secondary.main',
-                    fontSize: '3rem',
+                    border: '4px solid',
+                    borderColor: 'primary.main',
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
                   }}
-                >
-                  {artist.artistName?.charAt(0)?.toUpperCase() || 
-                   artist.username?.charAt(0)?.toUpperCase() || 'A'}
-                </Avatar>
+                />
                 <Chip
-                  label="Artist"
-                  color="secondary"
-                  variant="filled"
-                  sx={{ fontWeight: 600 }}
+                  label={artist.category}
+                  color="primary"
+                  sx={{
+                    fontWeight: 600,
+                    fontSize: '1rem',
+                    py: 1,
+                  }}
                 />
               </Box>
             </Grid>
 
-            {/* Artist Information */}
+            {/* Artist Info */}
             <Grid item xs={12} md={9}>
               <Typography
                 variant="h3"
@@ -118,136 +162,195 @@ const ArtistProfilePage = () => {
                 sx={{
                   fontWeight: 700,
                   color: 'primary.main',
+                  fontFamily: '"Noto Serif", serif',
                   mb: 2,
                 }}
               >
-                {artist.artistName || artist.username}
+                {artist.name}
+              </Typography>
+              
+              <Typography
+                variant="h6"
+                sx={{
+                  color: 'text.secondary',
+                  mb: 3,
+                  fontFamily: '"Poppins", sans-serif',
+                  lineHeight: 1.6,
+                }}
+              >
+                {artist.bio}
               </Typography>
 
-              {artist.bio && (
-                <Typography
-                  variant="body1"
-                  color="text.secondary"
-                  sx={{
-                    fontSize: '1.1rem',
-                    lineHeight: 1.6,
-                    mb: 3,
-                    maxWidth: 600,
-                  }}
-                >
-                  {artist.bio}
-                </Typography>
-              )}
-
-                             {/* Artist Details */}
-               <Grid container spacing={3}>
-                 {artist.location && (
-                   <Grid item xs={12} sm={6}>
-                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                       <LocationIcon sx={{ mr: 1, color: 'primary.main' }} />
-                       <Typography variant="body2" color="text.secondary">
-                         {artist.location}
-                       </Typography>
-                     </Box>
-                   </Grid>
-                 )}
-
-                 <Grid item xs={12} sm={6}>
-                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                     <CalendarIcon sx={{ mr: 1, color: 'primary.main' }} />
-                     <Typography variant="body2" color="text.secondary">
-                       Member since {new Date(artist.createdAt).getFullYear()}
-                     </Typography>
-                   </Box>
-                 </Grid>
-
-                 <Grid item xs={12} sm={6}>
-                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                     <PaletteIcon sx={{ mr: 1, color: 'primary.main' }} />
-                     <Typography variant="body2" color="text.secondary">
-                       {artworks.length} artwork{artworks.length !== 1 ? 's' : ''}
-                     </Typography>
-                   </Box>
-                 </Grid>
-               </Grid>
+              {/* Artist Details */}
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6}>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <LocationIcon sx={{ mr: 1, color: 'primary.main' }} />
+                    <Typography variant="body2" color="text.secondary">
+                      {artist.location}
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <PaletteIcon sx={{ mr: 1, color: 'primary.main' }} />
+                    <Typography variant="body2" color="text.secondary">
+                      {artist.artworks.length} artwork{artist.artworks.length !== 1 ? 's' : ''}
+                    </Typography>
+                  </Box>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Paper>
 
         {/* Artworks Section */}
         <Box sx={{ mb: 4 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-            <Typography
-              variant="h4"
-              component="h2"
-              sx={{
-                fontWeight: 600,
-                color: 'primary.main',
-              }}
-            >
-              Artworks by {artist.artistName || artist.username}
-            </Typography>
-            
-            <Chip
-              label={`${artworks.length} total`}
-              color="primary"
-              variant="outlined"
-              sx={{ fontWeight: 600 }}
-            />
-          </Box>
-
-          {artworks.length > 0 ? (
-            <Grid container spacing={3}>
-              {artworks.map((artwork) => (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={artwork._id}>
-                  <ArtCard artwork={artwork} />
-                </Grid>
-              ))}
-            </Grid>
-          ) : (
-            <Paper
-              sx={{
-                p: 6,
-                textAlign: 'center',
-                bgcolor: 'grey.50',
-                borderRadius: 3,
-              }}
-            >
-              <PaletteIcon sx={{ fontSize: 60, color: 'text.secondary', mb: 2 }} />
-              <Typography variant="h6" color="text.secondary" gutterBottom>
-                No artworks yet
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                This artist hasn't uploaded any artworks yet. Check back later!
-              </Typography>
-            </Paper>
-          )}
+          <Typography
+            variant="h4"
+            component="h2"
+            gutterBottom
+            sx={{
+              fontWeight: 700,
+              color: 'primary.main',
+              fontFamily: '"Noto Serif", serif',
+              mb: 3,
+            }}
+          >
+            Artworks by {artist.name}
+          </Typography>
+          
+          <Grid container spacing={3}>
+            {artist.artworks.map((artwork) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={artwork.id}>
+                <Card
+                  sx={{
+                    height: '100%',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease-in-out',
+                    borderRadius: 3,
+                    overflow: 'hidden',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                    '&:hover': {
+                      transform: 'translateY(-8px)',
+                      boxShadow: '0 12px 32px rgba(0,0,0,0.2)',
+                    },
+                  }}
+                  onClick={() => handleArtworkClick(artwork)}
+                >
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={artwork.image}
+                    alt={artwork.title}
+                    sx={{
+                      objectFit: 'cover',
+                      transition: 'transform 0.3s ease-in-out',
+                      '&:hover': {
+                        transform: 'scale(1.05)',
+                      },
+                    }}
+                  />
+                  <CardContent sx={{ p: 2 }}>
+                    <Typography
+                      variant="h6"
+                      component="h3"
+                      sx={{
+                        fontWeight: 700,
+                        color: 'primary.main',
+                        fontFamily: '"Noto Serif", serif',
+                        mb: 1,
+                        cursor: 'pointer',
+                        '&:hover': {
+                          textDecoration: 'underline',
+                        },
+                      }}
+                    >
+                      {artwork.title}
+                    </Typography>
+                    
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{
+                        mb: 2,
+                        fontFamily: '"Poppins", sans-serif',
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      {artwork.description}
+                    </Typography>
+                    
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography
+                        variant="caption"
+                        color="text.secondary"
+                        sx={{
+                          fontFamily: '"Poppins", sans-serif',
+                        }}
+                      >
+                        {artwork.year}
+                      </Typography>
+                      
+                      <IconButton
+                        size="small"
+                        sx={{
+                          color: 'primary.main',
+                          '&:hover': {
+                            bgcolor: 'primary.main',
+                            color: 'white',
+                          },
+                        }}
+                      >
+                        <OpenInNewIcon fontSize="small" />
+                      </IconButton>
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
         </Box>
 
-        {/* Contact Section */}
-        <Paper elevation={2} sx={{ p: 4, borderRadius: 3, bgcolor: 'primary.main', color: 'white' }}>
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
-              Interested in this artist's work?
-            </Typography>
-            <Typography variant="body1" sx={{ mb: 3, opacity: 0.9 }}>
-              Connect with {artist.artistName || artist.username} to learn more about their art and techniques.
-            </Typography>
-            <Button
-              variant="contained"
-              color="secondary"
-              size="large"
-              sx={{
-                px: 4,
-                py: 1.5,
-                fontSize: '1.1rem',
-                fontWeight: 600,
-              }}
-            >
-              Contact Artist
-            </Button>
+        {/* Footer */}
+        <Box
+          component="footer"
+          sx={{
+            mt: 8,
+            py: 4,
+            borderTop: '1px solid',
+            borderColor: 'grey.200',
+            textAlign: 'center',
+          }}
+        >
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              fontFamily: '"Poppins", sans-serif',
+            }}
+          >
+            © 2025 Dhara – Celebrating Indian Folk Arts
+          </Typography>
+          <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center', gap: 3 }}>
+            {['Home', 'Categories', 'About', 'Contact'].map((link) => (
+              <Typography
+                key={link}
+                variant="body2"
+                sx={{
+                  color: 'primary.main',
+                  cursor: 'pointer',
+                  fontFamily: '"Poppins", sans-serif',
+                  '&:hover': {
+                    textDecoration: 'underline',
+                  },
+                }}
+              >
+                {link}
+              </Typography>
+            ))}
           </Box>
-        </Paper>
+        </Box>
       </Container>
     </Box>
   );
