@@ -138,7 +138,7 @@ const Navbar = () => {
               letterSpacing: '.1rem',
             }}
           >
-            Folk Art Platform
+            Dhara
           </Typography>
         </Box>
 
