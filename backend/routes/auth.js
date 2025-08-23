@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const auth = require('../middleware/auth');
+const config = require('../config');
 
 const router = express.Router();
 
@@ -34,8 +35,8 @@ router.post('/register', async (req, res) => {
     // Generate JWT token
     const token = jwt.sign(
       { userId: user._id },
-      process.env.JWT_SECRET || 'your-super-secret-jwt-key-for-hackathon',
-      { expiresIn: '7d' }
+      config.jwt.secret,
+      { expiresIn: config.jwt.expiresIn }
     );
 
     // Return user data (without password) and token
@@ -74,8 +75,8 @@ router.post('/login', async (req, res) => {
     // Generate JWT token
     const token = jwt.sign(
       { userId: user._id },
-      process.env.JWT_SECRET || 'your-super-secret-jwt-key-for-hackathon',
-      { expiresIn: '7d' }
+      config.jwt.secret,
+      { expiresIn: config.jwt.expiresIn }
     );
 
     // Return user data (without password) and token
