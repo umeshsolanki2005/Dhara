@@ -21,90 +21,40 @@ import {
   Favorite as WishlistIcon,
   ShoppingCart as ShoppingCartIcon,
   Share as ShareIcon,
-  Comment as CommentIcon,
   LocationOn as LocationIcon,
   Person as PersonIcon,
   OpenInNew as OpenInNewIcon,
+  Verified as VerifiedIcon,
+  LocalShipping as ExportIcon,
 } from '@mui/icons-material';
 import { Link as RouterLink } from 'react-router-dom';
+import { getAllArtworks } from '../data/artistsData';
 
 const WishlistPage = () => {
   const navigate = useNavigate();
   const [wishlistItems, setWishlistItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Mock wishlist data - in real app this would come from context/state
+  // Get real wishlist data from artists
   useEffect(() => {
     // Simulate loading
     setTimeout(() => {
-      setWishlistItems([
-        {
-          id: 'madhubani-tree-life',
-          title: 'Madhubani Tree of Life',
-          category: 'Painting',
-          image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center',
-          infoLink: 'https://en.wikipedia.org/wiki/Madhubani_art',
-          year: '2023',
-          description: 'Traditional Madhubani depiction of the sacred tree with intricate patterns',
-          price: 25000,
-          isForSale: true,
-          likes: 45,
-          comments: 12,
-          shares: 8,
-          materials: ['Natural dyes', 'Handmade paper'],
-          tags: ['Madhubani', 'Traditional', 'Tree of Life'],
-          artist: 'Meena Iyer',
-          artistId: 'meena-iyer',
-          artistProfile: '/artist/meena-iyer',
-          artistImage: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
-          artistLocation: 'Bihar, India',
-          addedToWishlist: '2024-01-15'
-        },
-        {
-          id: 'stone-elephant',
-          title: 'Stone Elephant',
-          category: 'Sculpture',
-          image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop&crop=center',
-          infoLink: 'https://en.wikipedia.org/wiki/Indian_sculpture',
-          year: '2023',
-          description: 'Hand-carved stone elephant in traditional Rajasthani style',
-          price: 85000,
-          isForSale: true,
-          likes: 67,
-          comments: 18,
-          shares: 14,
-          materials: ['Sandstone', 'Traditional tools'],
-          tags: ['Sculpture', 'Elephant', 'Rajasthani'],
-          artist: 'Raghavendra Sharma',
-          artistId: 'raghavendra-sharma',
-          artistProfile: '/artist/raghavendra-sharma',
-          artistImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
-          artistLocation: 'Rajasthan, India',
-          addedToWishlist: '2024-01-10'
-        },
-        {
-          id: 'silk-saree',
-          title: 'Silk Saree Collection',
-          category: 'Textile',
-          image: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop&crop=center',
-          infoLink: 'https://en.wikipedia.org/wiki/Silk_in_India',
-          year: '2023',
-          description: 'Handwoven silk sarees with traditional motifs and contemporary designs',
-          price: 45000,
-          isForSale: true,
-          likes: 78,
-          comments: 21,
-          shares: 16,
-          materials: ['Pure silk', 'Natural dyes', 'Hand embroidery'],
-          tags: ['Textile', 'Saree', 'Silk', 'Handwoven'],
-          artist: 'Kavita Reddy',
-          artistId: 'kavita-reddy',
-          artistProfile: '/artist/kavita-reddy',
-          artistImage: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
-          artistLocation: 'Karnataka, India',
-          addedToWishlist: '2024-01-08'
-        }
-      ]);
+      const allArtworks = getAllArtworks();
+      // Select some famous artworks for the wishlist
+      const selectedArtworks = [
+        allArtworks.find(art => art.id === 'jamini-roy-santal-dance'),
+        allArtworks.find(art => art.id === 'amrita-sher-gil-three-girls'),
+        allArtworks.find(art => art.id === 'raja-ravi-varma-damayanti'),
+        allArtworks.find(art => art.id === 'nandalal-bose-sati'),
+        allArtworks.find(art => art.id === 'abindranath-tagore-bharat-mata')
+      ].filter(Boolean);
+      
+      const wishlistData = selectedArtworks.map(artwork => ({
+        ...artwork,
+        addedToWishlist: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+      }));
+      
+      setWishlistItems(wishlistData);
       setLoading(false);
     }, 1000);
   }, []);
@@ -115,7 +65,8 @@ const WishlistPage = () => {
 
   const handleBuyNow = (item) => {
     // In real app, this would navigate to checkout or open payment modal
-    alert(`Redirecting to checkout for ${item.title}`);
+    const message = `Redirecting to secure checkout for "${item.title}" by ${item.artist}\n\nPrice: ${formatPrice(item.price)}\n\nThis will open our secure payment gateway where you can complete your purchase.`;
+    alert(message);
   };
 
   const handleShare = (item) => {
@@ -374,22 +325,34 @@ const WishlistPage = () => {
                         <PersonIcon />
                       </Avatar>
                       <Box sx={{ flexGrow: 1 }}>
-                        <Typography
-                          component={RouterLink}
-                          to={item.artistProfile}
-                          sx={{
-                            color: 'primary.main',
-                            textDecoration: 'none',
-                            fontWeight: 600,
-                            fontFamily: '"Poppins", sans-serif',
-                            '&:hover': {
-                              textDecoration: 'underline',
-                              color: 'primary.dark',
-                            },
-                          }}
-                        >
-                          {item.artist}
-                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                          <Typography
+                            component={RouterLink}
+                            to={item.artistProfile}
+                            sx={{
+                              color: 'primary.main',
+                              textDecoration: 'none',
+                              fontWeight: 600,
+                              fontFamily: '"Poppins", sans-serif',
+                              '&:hover': {
+                                textDecoration: 'underline',
+                                color: 'primary.dark',
+                              },
+                            }}
+                          >
+                            {item.artist}
+                          </Typography>
+                          {item.isVerified && (
+                            <Tooltip title="Verified Artist">
+                              <VerifiedIcon sx={{ fontSize: 16, color: 'success.main' }} />
+                            </Tooltip>
+                          )}
+                          {item.exportReady && (
+                            <Tooltip title="Export Ready">
+                              <ExportIcon sx={{ fontSize: 16, color: 'info.main' }} />
+                            </Tooltip>
+                          )}
+                        </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                           <LocationIcon sx={{ fontSize: 14, mr: 0.5, color: 'text.secondary' }} />
                           <Typography

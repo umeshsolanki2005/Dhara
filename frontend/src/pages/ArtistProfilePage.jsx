@@ -15,6 +15,7 @@ import {
   IconButton,
   Alert,
   CircularProgress,
+  Tooltip,
 } from '@mui/material';
 import {
   LocationOn as LocationIcon,
@@ -22,6 +23,8 @@ import {
   Palette as PaletteIcon,
   ArrowBack as ArrowBackIcon,
   OpenInNew as OpenInNewIcon,
+  Verified as VerifiedIcon,
+  LocalShipping as ExportIcon,
 } from '@mui/icons-material';
 import { artistsData } from '../data/artistsData';
 
@@ -155,19 +158,29 @@ const ArtistProfilePage = () => {
 
             {/* Artist Info */}
             <Grid item xs={12} md={9}>
-              <Typography
-                variant="h3"
-                component="h1"
-                gutterBottom
-                sx={{
-                  fontWeight: 700,
-                  color: 'primary.main',
-                  fontFamily: '"Noto Serif", serif',
-                  mb: 2,
-                }}
-              >
-                {artist.name}
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                <Typography
+                  variant="h3"
+                  component="h1"
+                  sx={{
+                    fontWeight: 700,
+                    color: 'primary.main',
+                    fontFamily: '"Noto Serif", serif',
+                  }}
+                >
+                  {artist.name}
+                </Typography>
+                {artist.isVerified && (
+                  <Tooltip title="Verified Artist">
+                    <VerifiedIcon sx={{ fontSize: 32, color: 'success.main' }} />
+                  </Tooltip>
+                )}
+                {artist.exportReady && (
+                  <Tooltip title="Export Ready">
+                    <ExportIcon sx={{ fontSize: 32, color: 'info.main' }} />
+                  </Tooltip>
+                )}
+              </Box>
               
               <Typography
                 variant="h6"
@@ -199,6 +212,36 @@ const ArtistProfilePage = () => {
                     </Typography>
                   </Box>
                 </Grid>
+                {artist.exportReady && (
+                  <Grid item xs={12}>
+                    <Box sx={{ 
+                      p: 2, 
+                      bgcolor: 'info.light', 
+                      borderRadius: 2, 
+                      border: '1px solid',
+                      borderColor: 'info.main'
+                    }}>
+                      <Typography variant="h6" color="info.dark" sx={{ mb: 1, fontWeight: 600 }}>
+                        Export Ready ✓
+                      </Typography>
+                      <Typography variant="body2" color="info.dark" sx={{ mb: 1 }}>
+                        This artist meets international export standards and their artworks are ready for global markets.
+                      </Typography>
+                      {artist.exportCertifications && (
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                          {artist.exportCertifications.map((cert, index) => (
+                            <Chip
+                              key={index}
+                              label={cert}
+                              size="small"
+                              sx={{ bgcolor: 'info.main', color: 'white', fontSize: '0.7rem' }}
+                            />
+                          ))}
+                        </Box>
+                      )}
+                    </Box>
+                  </Grid>
+                )}
               </Grid>
             </Grid>
           </Grid>

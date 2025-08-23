@@ -104,4 +104,53 @@ router.get('/me', auth, async (req, res) => {
   }
 });
 
+// Update user profile
+router.put('/profile', auth, async (req, res) => {
+  try {
+    const { username, email, isArtist, artistName, bio, location, profileImage } = req.body;
+    
+    // Check if username or email already exists (excluding current user)
+    const existingUser = await User.findOne({
+      $or: [
+        { email, _id: { $ne: req.user._id } },
+        { username, _id: { $ne: req.user._id } }
+      ]
+    });
+    
+    if (existingUser) {
+      return res.status(400).json({ 
+        message: 'Username or email already exists' 
+      });
+    }
+
+    // Update user profile
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        username,
+        email,
+        isArtist: isArtist || false,
+        artistName: isArtist ? artistName : undefined,
+        bio: isArtist ? bio : undefined,
+        location: isArtist ? location : undefined,
+        profileImage: profileImage || ''
+      },
+      { new: true, runValidators: true }
+    );
+
+    // Return updated user data (without password)
+    const userResponse = updatedUser.toObject();
+    delete userResponse.password;
+
+    res.json({
+      message: 'Profile updated successfully',
+      user: userResponse
+    });
+
+  } catch (error) {
+    console.error('Profile update error:', error);
+    res.status(500).json({ message: 'Server error during profile update' });
+  }
+});
+
 module.exports = router;

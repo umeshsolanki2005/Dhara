@@ -16,6 +16,7 @@ import {
   Tab,
   Alert,
   CircularProgress,
+  Button,
 } from '@mui/material';
 import {
   Search as SearchIcon,
@@ -24,37 +25,52 @@ import {
 import { IconButton } from '@mui/material';
 import ArtCard from '../components/ArtCard';
 import ArtistCard from '../components/ArtistCard';
-import {
-  getAllArtworks,
-  getArtworksByCategory,
-  searchArtworksAndArtists,
-  getCategories,
-} from '../data/artistsData';
+import axios from 'axios';
 
 const HomePage = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [activeTab, setActiveTab] = useState(0);
+  const [allArtworks, setAllArtworks] = useState([]);
   const [filteredArtworks, setFilteredArtworks] = useState([]);
   const [searchResults, setSearchResults] = useState({ artworks: [], artists: [] });
   const [isSearching, setIsSearching] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  // Get all artworks and categories
-  const allArtworks = getAllArtworks();
-  const categories = getCategories();
+  const categories = ['All', 'Painting', 'Sculpture', 'Textile', 'Pottery', 'Jewelry', 'Other'];
 
+  // Fetch all artworks from backend
   useEffect(() => {
-    // Apply category filter
+    fetchArtworks();
+  }, []);
+
+  const fetchArtworks = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get('/api/artworks');
+      setAllArtworks(response.data);
+      setFilteredArtworks(response.data);
+    } catch (error) {
+      console.error('Error fetching artworks:', error);
+      setError('Failed to load artworks. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Apply category filter
+  useEffect(() => {
     if (selectedCategory === 'All') {
       setFilteredArtworks(allArtworks);
     } else {
-      setFilteredArtworks(getArtworksByCategory(selectedCategory));
+      setFilteredArtworks(allArtworks.filter(artwork => artwork.category === selectedCategory));
     }
   }, [selectedCategory, allArtworks]);
 
+  // Handle search
   useEffect(() => {
-    // Handle search
     if (searchTerm.trim() === '') {
       setSearchResults({ artworks: [], artists: [] });
       setIsSearching(false);
@@ -65,7 +81,26 @@ const HomePage = () => {
     const results = searchArtworksAndArtists(searchTerm);
     setSearchResults(results);
     setIsSearching(false);
-  }, [searchTerm]);
+  }, [searchTerm, allArtworks]);
+
+  const searchArtworksAndArtists = (searchTerm) => {
+    const lowerSearchTerm = searchTerm.toLowerCase();
+    
+    const matchingArtworks = allArtworks.filter(artwork =>
+      artwork.title.toLowerCase().includes(lowerSearchTerm) ||
+      artwork.description.toLowerCase().includes(lowerSearchTerm) ||
+      (artwork.artist && artwork.artist.username && 
+       artwork.artist.username.toLowerCase().includes(lowerSearchTerm)) ||
+      (artwork.artist && artwork.artist.artistName && 
+       artwork.artist.artistName.toLowerCase().includes(lowerSearchTerm))
+    );
+    
+    // For now, we'll just return artworks since we don't have a separate artists endpoint
+    // In a real app, you'd have a separate artists API endpoint
+    const matchingArtists = [];
+    
+    return { artworks: matchingArtworks, artists: matchingArtists };
+  };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -90,8 +125,8 @@ const HomePage = () => {
   };
 
   const handleArtworkClick = (artwork) => {
-    // Navigate to external link for artwork info
-    window.open(artwork.infoLink, '_blank');
+    // Navigate to artwork detail page or open in modal
+    console.log('Artwork clicked:', artwork);
   };
 
   const handleLike = (artworkId, isLiked) => {
@@ -123,6 +158,27 @@ const HomePage = () => {
   const hasSearchResults = searchTerm.trim() !== '';
   const displayArtworks = hasSearchResults ? searchResults.artworks : filteredArtworks;
   const displayArtists = hasSearchResults ? searchResults.artists : [];
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+        <CircularProgress size={60} color="primary" />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container maxWidth="lg" sx={{ py: 8 }}>
+        <Alert severity="error" sx={{ mb: 4 }}>
+          {error}
+        </Alert>
+        <Button variant="contained" onClick={fetchArtworks}>
+          Try Again
+        </Button>
+      </Container>
+    );
+  }
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
@@ -197,17 +253,17 @@ const HomePage = () => {
                       <SearchIcon color="primary" />
                     </InputAdornment>
                   ),
-                                     endAdornment: searchTerm && (
-                     <InputAdornment position="end">
-                       <IconButton
-                         size="small"
-                         onClick={handleClearSearch}
-                         sx={{ color: 'text.secondary' }}
-                       >
-                         <ClearIcon />
-                       </IconButton>
-                     </InputAdornment>
-                   ),
+                  endAdornment: searchTerm && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={handleClearSearch}
+                        sx={{ color: 'text.secondary' }}
+                      >
+                        <ClearIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
                 }}
                 sx={{
                   '& .MuiOutlinedInput-root': {
@@ -296,8 +352,15 @@ const HomePage = () => {
                 </Typography>
                 <Grid container spacing={3}>
                   {searchResults.artworks.map((artwork) => (
-                    <Grid item xs={12} sm={6} md={4} lg={3} key={artwork.id}>
-                      <ArtCard artwork={artwork} />
+                    <Grid item xs={12} sm={6} md={4} lg={3} key={artwork._id}>
+                      <ArtCard 
+                        artwork={artwork}
+                        onLike={handleLike}
+                        onWishlist={handleWishlist}
+                        onComment={handleComment}
+                        onShare={handleShare}
+                        onBuy={handleBuy}
+                      />
                     </Grid>
                   ))}
                 </Grid>
@@ -322,7 +385,7 @@ const HomePage = () => {
                 </Typography>
                 <Grid container spacing={3}>
                   {searchResults.artists.map((artist) => (
-                    <Grid item xs={12} sm={6} md={4} key={artist.id}>
+                    <Grid item xs={12} sm={6} md={4} key={artist._id}>
                       <ArtistCard artist={artist} />
                     </Grid>
                   ))}
@@ -377,18 +440,18 @@ const HomePage = () => {
             {/* Artworks Grid */}
             {displayArtworks.length > 0 ? (
               <Grid container spacing={3}>
-                                    {displayArtworks.map((artwork) => (
-                      <Grid item xs={12} sm={6} md={4} lg={3} key={artwork.id}>
-                        <ArtCard 
-                          artwork={artwork}
-                          onLike={handleLike}
-                          onWishlist={handleWishlist}
-                          onComment={handleComment}
-                          onShare={handleShare}
-                          onBuy={handleBuy}
-                        />
-                      </Grid>
-                    ))}
+                {displayArtworks.map((artwork) => (
+                  <Grid item xs={12} sm={6} md={4} lg={3} key={artwork._id}>
+                    <ArtCard 
+                      artwork={artwork}
+                      onLike={handleLike}
+                      onWishlist={handleWishlist}
+                      onComment={handleComment}
+                      onShare={handleShare}
+                      onBuy={handleBuy}
+                    />
+                  </Grid>
+                ))}
               </Grid>
             ) : (
               <Alert severity="info">

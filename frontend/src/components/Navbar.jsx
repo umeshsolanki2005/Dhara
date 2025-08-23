@@ -61,11 +61,7 @@ const Navbar = () => {
   };
 
   const handleProfileClick = () => {
-    if (user?.isArtist) {
-      navigate(`/artist/${user._id}`);
-    } else {
-      navigate('/profile');
-    }
+    navigate('/profile');
     handleMenuClose();
     handleMobileMenuClose();
   };

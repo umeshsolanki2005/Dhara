@@ -38,18 +38,16 @@ router.get('/:id', async (req, res) => {
 // Upload new artwork (protected)
 router.post('/upload', auth, async (req, res) => {
   try {
-    const { title, description, imageUrl, category, materials, yearCreated, price, isForSale, tags } = req.body;
+    const { title, description, imageUrl, category, yearCreated, price, isForSale } = req.body;
     
     const artwork = new Artwork({
       title,
       description,
       imageUrl,
       category,
-      materials: materials || [],
       yearCreated,
-      price,
+      price: isForSale ? price : 0,
       isForSale: isForSale || false,
-      tags: tags || [],
       artist: req.user._id
     });
     

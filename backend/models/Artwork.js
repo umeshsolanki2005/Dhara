@@ -25,10 +25,6 @@ const artworkSchema = new mongoose.Schema({
     enum: ['Painting', 'Sculpture', 'Textile', 'Pottery', 'Jewelry', 'Other'],
     default: 'Other'
   },
-  materials: [{
-    type: String,
-    trim: true
-  }],
   yearCreated: {
     type: Number,
     min: 1900,
@@ -41,16 +37,12 @@ const artworkSchema = new mongoose.Schema({
   isForSale: {
     type: Boolean,
     default: false
-  },
-  tags: [{
-    type: String,
-    trim: true
-  }]
+  }
 }, {
   timestamps: true
 });
 
 // Index for search functionality
-artworkSchema.index({ title: 'text', description: 'text', tags: 'text' });
+artworkSchema.index({ title: 'text', description: 'text' });
 
 module.exports = mongoose.model('Artwork', artworkSchema);

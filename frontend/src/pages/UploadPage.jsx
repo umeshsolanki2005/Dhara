@@ -12,16 +12,14 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Chip,
-  OutlinedInput,
   Alert,
   CircularProgress,
   InputAdornment,
+  FormControlLabel,
+  Switch,
 } from '@mui/material';
 import {
   CloudUpload as UploadIcon,
-  Add as AddIcon,
-  Close as CloseIcon,
 } from '@mui/icons-material';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
@@ -35,15 +33,11 @@ const UploadPage = () => {
     description: '',
     imageUrl: '',
     category: '',
-    materials: [],
     yearCreated: new Date().getFullYear(),
     price: '',
     isForSale: false,
-    tags: [],
   });
   
-  const [newTag, setNewTag] = useState('');
-  const [newMaterial, setNewMaterial] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -58,45 +52,12 @@ const UploadPage = () => {
   ];
 
   const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: type === 'checkbox' ? checked : value,
     });
     setError('');
-  };
-
-  const handleAddTag = () => {
-    if (newTag.trim() && !formData.tags.includes(newTag.trim())) {
-      setFormData({
-        ...formData,
-        tags: [...formData.tags, newTag.trim()],
-      });
-      setNewTag('');
-    }
-  };
-
-  const handleRemoveTag = (tagToRemove) => {
-    setFormData({
-      ...formData,
-      tags: formData.tags.filter(tag => tag !== tagToRemove),
-    });
-  };
-
-  const handleAddMaterial = () => {
-    if (newMaterial.trim() && !formData.materials.includes(newMaterial.trim())) {
-      setFormData({
-        ...formData,
-        materials: [...formData.materials, newMaterial.trim()],
-      });
-      setNewMaterial('');
-    }
-  };
-
-  const handleRemoveMaterial = (materialToRemove) => {
-    setFormData({
-      ...formData,
-      materials: formData.materials.filter(material => material !== materialToRemove),
-    });
   };
 
   const validateForm = () => {
@@ -105,7 +66,7 @@ const UploadPage = () => {
       return false;
     }
 
-    if (formData.isForSale && (!formData.price || formData.price <= 0)) {
+    if (formData.isForSale && (!formData.price || parseFloat(formData.price) <= 0)) {
       setError('Please enter a valid price for artworks that are for sale');
       return false;
     }
@@ -294,89 +255,33 @@ const UploadPage = () => {
               </Grid>
 
               <Grid item xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  label="Price (₹)"
-                  name="price"
-                  type="number"
-                  value={formData.price}
-                  onChange={handleChange}
-                  disabled={!formData.isForSale}
-                  inputProps={{ min: 0, step: 100 }}
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={formData.isForSale}
+                      onChange={handleChange}
+                      name="isForSale"
+                      color="primary"
+                    />
+                  }
+                  label="Artwork is for sale"
                 />
               </Grid>
 
-              {/* Materials */}
-              <Grid item xs={12}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Materials Used
-                </Typography>
-                <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
+              {formData.isForSale && (
+                <Grid item xs={12} md={6}>
                   <TextField
-                    size="small"
-                    placeholder="Add material"
-                    value={newMaterial}
-                    onChange={(e) => setNewMaterial(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddMaterial())}
-                    sx={{ flexGrow: 1 }}
+                    fullWidth
+                    label="Price (₹)"
+                    name="price"
+                    type="number"
+                    value={formData.price}
+                    onChange={handleChange}
+                    inputProps={{ min: 0, step: 100 }}
+                    required
                   />
-                  <Button
-                    variant="outlined"
-                    onClick={handleAddMaterial}
-                    startIcon={<AddIcon />}
-                  >
-                    Add
-                  </Button>
-                </Box>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  {formData.materials.map((material, index) => (
-                    <Chip
-                      key={index}
-                      label={material}
-                      onDelete={() => handleRemoveMaterial(material)}
-                      deleteIcon={<CloseIcon />}
-                      color="primary"
-                      variant="outlined"
-                    />
-                  ))}
-                </Box>
-              </Grid>
-
-              {/* Tags */}
-              <Grid item xs={12}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Tags
-                </Typography>
-                <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
-                  <TextField
-                    size="small"
-                    placeholder="Add tag"
-                    value={newTag}
-                    onChange={(e) => setNewTag(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
-                    sx={{ flexGrow: 1 }}
-                  />
-                  <Button
-                    variant="outlined"
-                    onClick={handleAddTag}
-                    startIcon={<AddIcon />}
-                  >
-                    Add
-                  </Button>
-                </Box>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  {formData.tags.map((tag, index) => (
-                    <Chip
-                      key={index}
-                      label={tag}
-                      onDelete={() => handleRemoveTag(tag)}
-                      deleteIcon={<CloseIcon />}
-                      color="secondary"
-                      variant="outlined"
-                    />
-                  ))}
-                </Box>
-              </Grid>
+                </Grid>
+              )}
 
               {/* Submit Button */}
               <Grid item xs={12}>

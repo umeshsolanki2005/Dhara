@@ -1,345 +1,329 @@
 export const artistsData = [
   {
-    id: "meena-iyer",
-    name: "Meena Iyer",
-    bio: "A contemporary Madhubani artist preserving traditional Indian folk styles with modern interpretations. Her work celebrates the rich cultural heritage of Bihar through intricate patterns and vibrant colors.",
-    location: "Bihar, India",
-    profileImage: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+    id: "jamini-roy",
+    name: "Jamini Roy",
+    bio: "One of India's most celebrated artists, Jamini Roy (1887-1972) was a pioneer of modern Indian art. He developed a unique style that combined traditional Bengali folk art with modern artistic sensibilities, creating a distinctive visual language that celebrated India's cultural heritage.",
+    location: "Kolkata, West Bengal, India",
+    profileImage: "/images/madhubani.jpeg",
     category: "Painting",
-    coordinates: { lat: 25.0961, lng: 85.3131 }, // Patna coordinates
+    coordinates: { lat: 22.5726, lng: 88.3639 }, // Kolkata coordinates
+    isVerified: true,
+    verificationDate: "2024-01-15",
+    exportReady: true,
+    exportCertifications: ["Handicraft Export Promotion Council", "Geographical Indication"],
     artworks: [
       {
-        id: "madhubani-tree-life",
-        title: "Madhubani Tree of Life",
+        id: "jamini-roy-santal-dance",
+        title: "Santal Dance",
         category: "Painting",
-        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center",
-        infoLink: "https://en.wikipedia.org/wiki/Madhubani_art",
-        year: "2023",
-        description: "Traditional Madhubani depiction of the sacred tree with intricate patterns",
-        price: 25000,
+        image: "/images/madhubani.jpeg",
+        infoLink: "https://en.wikipedia.org/wiki/Jamini_Roy",
+        year: "1930",
+        description: "Iconic painting depicting Santal tribal dance, showcasing Roy's mastery of folk art forms and his unique style that bridged traditional and modern Indian art.",
+        price: 2500000,
         isForSale: true,
-        likes: 45,
-        comments: 12,
-        shares: 8,
-        materials: ["Natural dyes", "Handmade paper"],
-        tags: ["Madhubani", "Traditional", "Tree of Life"]
+        likes: 1245,
+        comments: 89,
+        shares: 156,
+        materials: ["Tempera on paper", "Natural pigments"],
+        tags: ["Folk Art", "Bengali", "Tribal", "Modern Indian Art"]
       },
       {
-        id: "madhubani-peacock",
-        title: "Madhubani Peacock",
+        id: "jamini-roy-mother-and-child",
+        title: "Mother and Child",
         category: "Painting",
-        image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop&crop=center",
-        infoLink: "https://en.wikipedia.org/wiki/Madhubani_art",
-        year: "2023",
-        description: "Vibrant peacock in traditional Madhubani style with geometric patterns",
-        price: 18000,
+        image: "/images/the-ritual-art-of-pithora-wall-paintings-420449_1200x1200.jpg",
+        infoLink: "https://en.wikipedia.org/wiki/Jamini_Roy",
+        year: "1935",
+        description: "Timeless portrayal of maternal love using Roy's signature flat, decorative style inspired by Kalighat pat paintings and traditional Indian art forms.",
+        price: 1800000,
         isForSale: true,
-        likes: 38,
-        comments: 9,
-        shares: 5,
-        materials: ["Natural dyes", "Handmade paper"],
-        tags: ["Madhubani", "Peacock", "Geometric"]
-      },
-      {
-        id: "madhubani-wedding",
-        title: "Wedding Ceremony",
-        category: "Painting",
-        image: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=300&fit=crop&crop=center",
-        infoLink: "https://en.wikipedia.org/wiki/Madhubani_art",
-        year: "2022",
-        description: "Celebration of traditional Indian wedding rituals in folk art style",
-        price: 32000,
-        isForSale: true,
-        likes: 52,
-        comments: 15,
-        shares: 12,
-        materials: ["Natural dyes", "Handmade paper"],
-        tags: ["Madhubani", "Wedding", "Rituals"]
-      },
-      {
-        id: "madhubani-fish",
-        title: "Sacred Fish",
-        category: "Painting",
-        image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop&crop=center",
-        infoLink: "https://en.wikipedia.org/wiki/Madhubani_art",
-        year: "2022",
-        description: "Symbolic fish representing fertility and prosperity in Madhubani tradition",
-        price: 15000,
-        isForSale: true,
-        likes: 29,
-        comments: 7,
-        shares: 4,
-        materials: ["Natural dyes", "Handmade paper"],
-        tags: ["Madhubani", "Fish", "Symbolic"]
-      },
-      {
-        id: "madhubani-sun",
-        title: "Rising Sun",
-        category: "Painting",
-        image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center",
-        infoLink: "https://en.wikipedia.org/wiki/Madhubani_art",
-        year: "2021",
-        description: "Sun motif with traditional geometric patterns and bright colors",
-        price: 12000,
-        isForSale: true,
-        likes: 34,
-        comments: 8,
-        shares: 6,
-        materials: ["Natural dyes", "Handmade paper"],
-        tags: ["Madhubani", "Sun", "Geometric"]
+        likes: 987,
+        comments: 67,
+        shares: 123,
+        materials: ["Tempera on paper", "Natural dyes"],
+        tags: ["Maternal", "Kalighat", "Traditional", "Indian Art"]
       }
     ]
   },
   {
-    id: "raghavendra-sharma",
-    name: "Raghavendra Sharma",
-    bio: "Master craftsman specializing in traditional Indian sculptures and stone carvings. His work reflects the ancient techniques passed down through generations of artisans.",
-    location: "Rajasthan, India",
-    profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-    category: "Sculpture",
-    coordinates: { lat: 26.9124, lng: 75.7873 }, // Jaipur coordinates
+    id: "amrita-sher-gil",
+    name: "Amrita Sher-Gil",
+    bio: "Amrita Sher-Gil (1913-1941) was a revolutionary Indian artist who is often considered the 'Frida Kahlo of India.' Her work combined European modernism with Indian artistic traditions, creating powerful depictions of Indian life and culture that continue to influence artists today.",
+    location: "Budapest, Hungary (born) / Shimla, India",
+    profileImage: "/images/Varli.jpg",
+    category: "Painting",
+    coordinates: { lat: 31.1048, lng: 77.1734 }, // Shimla coordinates
+    isVerified: true,
+    verificationDate: "2024-01-10",
+    exportReady: true,
+    exportCertifications: ["International Art Export", "Cultural Heritage"],
     artworks: [
       {
-        id: "stone-elephant",
-        title: "Stone Elephant",
-        category: "Sculpture",
-        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop&crop=center",
-        infoLink: "https://en.wikipedia.org/wiki/Indian_sculpture",
-        year: "2023",
-        description: "Hand-carved stone elephant in traditional Rajasthani style",
-        price: 85000,
+        id: "amrita-sher-gil-three-girls",
+        title: "Three Girls",
+        category: "Painting",
+        image: "/images/madhubani.jpeg",
+        infoLink: "https://en.wikipedia.org/wiki/Amrita_Sher-Gil",
+        year: "1935",
+        description: "Masterpiece depicting three young women in traditional Indian attire, showcasing Sher-Gil's unique blend of European modernism and Indian cultural themes.",
+        price: 3500000,
         isForSale: true,
-        likes: 67,
-        comments: 18,
-        shares: 14,
-        materials: ["Sandstone", "Traditional tools"],
-        tags: ["Sculpture", "Elephant", "Rajasthani"]
+        likes: 2156,
+        comments: 134,
+        shares: 289,
+        materials: ["Oil on canvas", "Traditional Indian motifs"],
+        tags: ["Modernism", "Indian Women", "Cultural Identity", "European Style"]
       },
       {
-        id: "marble-buddha",
-        title: "Marble Buddha",
-        category: "Sculpture",
-        image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop&crop=center",
-        infoLink: "https://en.wikipedia.org/wiki/Buddhist_art",
-        year: "2022",
-        description: "Serene Buddha statue carved from pure white marble",
-        price: 120000,
+        id: "amrita-sher-gil-village-scene",
+        title: "Village Scene",
+        category: "Painting",
+        image: "/images/the-ritual-art-of-pithora-wall-paintings-420449_1200x1200.jpg",
+        infoLink: "https://en.wikipedia.org/wiki/Amrita_Sher-Gil",
+        year: "1938",
+        description: "Vibrant depiction of rural Indian life, capturing the essence of village culture with Sher-Gil's distinctive color palette and modernist approach.",
+        price: 2800000,
         isForSale: true,
-        likes: 89,
-        comments: 23,
-        shares: 19,
-        materials: ["White marble", "Traditional tools"],
-        tags: ["Sculpture", "Buddha", "Marble"]
+        likes: 1654,
+        comments: 98,
+        shares: 201,
+        materials: ["Oil on canvas", "Vibrant pigments"],
+        tags: ["Rural Life", "Village", "Indian Culture", "Modern Art"]
+      }
+    ]
+  },
+  {
+    id: "raja-ravi-varma",
+    name: "Raja Ravi Varma",
+    bio: "Raja Ravi Varma (1848-1906) was a celebrated Indian painter and artist who is considered one of the greatest painters in the history of Indian art. He was the first Indian artist to use oil paints and to master the art of lithographic reproduction of his paintings.",
+    location: "Kerala, India",
+    profileImage: "/images/Varli.jpg",
+    category: "Painting",
+    coordinates: { lat: 10.8505, lng: 76.2711 }, // Kerala coordinates
+    isVerified: true,
+    verificationDate: "2024-01-12",
+    exportReady: true,
+    exportCertifications: ["Cultural Heritage", "National Art Gallery"],
+    artworks: [
+      {
+        id: "raja-ravi-varma-damayanti",
+        title: "Damayanti Talking to a Swan",
+        category: "Painting",
+        image: "/images/madhubani.jpeg",
+        infoLink: "https://en.wikipedia.org/wiki/Raja_Ravi_Varma",
+        year: "1890",
+        description: "Iconic painting from Indian mythology depicting Damayanti in conversation with a swan, showcasing Varma's mastery of oil painting and his ability to bring Indian epics to life.",
+        price: 4500000,
+        isForSale: true,
+        likes: 2987,
+        comments: 187,
+        shares: 345,
+        materials: ["Oil on canvas", "Traditional Indian themes"],
+        tags: ["Mythology", "Damayanti", "Oil Painting", "Indian Epics"]
       },
       {
-        id: "bronze-goddess",
-        title: "Bronze Goddess",
-        category: "Sculpture",
-        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center",
-        infoLink: "https://en.wikipedia.org/wiki/Indian_sculpture",
-        year: "2021",
-        description: "Traditional bronze casting of Hindu goddess with intricate details",
+        id: "raja-ravi-varma-lakshmi",
+        title: "Lakshmi",
+        category: "Painting",
+        image: "/images/the-ritual-art-of-pithora-wall-paintings-420449_1200x1200.jpg",
+        infoLink: "https://en.wikipedia.org/wiki/Raja_Ravi_Varma",
+        year: "1896",
+        description: "Beautiful depiction of Goddess Lakshmi, exemplifying Varma's skill in portraying divine figures with human grace and his contribution to Indian religious art.",
+        price: 3800000,
+        isForSale: true,
+        likes: 2345,
+        comments: 156,
+        shares: 278,
+        materials: ["Oil on canvas", "Divine imagery"],
+        tags: ["Goddess Lakshmi", "Religious Art", "Divine Beauty", "Indian Mythology"]
+      }
+    ]
+  },
+  {
+    id: "nandalal-bose",
+    name: "Nandalal Bose",
+    bio: "Nandalal Bose (1882-1966) was a pioneering figure of modern Indian art and a key figure of the Bengal School of Art. He was deeply influenced by the Swadeshi movement and created art that celebrated Indian cultural heritage and national identity.",
+    location: "Santiniketan, West Bengal, India",
+    profileImage: "/images/madhubani.jpeg",
+    category: "Painting",
+    coordinates: { lat: 23.6801, lng: 87.6725 }, // Santiniketan coordinates
+    isVerified: true,
+    verificationDate: "2024-01-08",
+    exportReady: true,
+    exportCertifications: ["Bengal School", "Cultural Heritage"],
+    artworks: [
+      {
+        id: "nandalal-bose-sati",
+        title: "Sati",
+        category: "Painting",
+        image: "/images/Varli.jpg",
+        infoLink: "https://en.wikipedia.org/wiki/Nandalal_Bose",
+        year: "1943",
+        description: "Powerful depiction of the mythological figure Sati, showcasing Bose's mastery of Indian classical themes and his unique artistic vision that bridged tradition and modernity.",
+        price: 3200000,
+        isForSale: true,
+        likes: 1876,
+        comments: 123,
+        shares: 234,
+        materials: ["Watercolor on paper", "Indian classical themes"],
+        tags: ["Sati", "Mythology", "Bengal School", "Classical Indian Art"]
+      },
+      {
+        id: "nandalal-bose-ramayana",
+        title: "Ramayana Series",
+        category: "Painting",
+        image: "/images/madhubani.jpeg",
+        infoLink: "https://en.wikipedia.org/wiki/Nandalal_Bose",
+        year: "1940",
+        description: "Illustrations from the epic Ramayana, demonstrating Bose's deep understanding of Indian literature and his ability to translate ancient stories into compelling visual narratives.",
+        price: 2800000,
+        isForSale: true,
+        likes: 1543,
+        comments: 98,
+        shares: 189,
+        materials: ["Watercolor", "Ramayana themes"],
+        tags: ["Ramayana", "Epic", "Indian Literature", "Narrative Art"]
+      }
+    ]
+  },
+  {
+    id: "abindranath-tagore",
+    name: "Abanindranath Tagore",
+    bio: "Abanindranath Tagore (1871-1951) was the founder of the Bengal School of Art and a key figure in the Indian nationalist movement. He developed a new visual language that combined Indian artistic traditions with modern techniques, creating a distinctly Indian form of modern art.",
+    location: "Kolkata, West Bengal, India",
+    profileImage: "/images/the-ritual-art-of-pithora-wall-paintings-420449_1200x1200.jpg",
+    category: "Painting",
+    coordinates: { lat: 22.5726, lng: 88.3639 }, // Kolkata coordinates
+    isVerified: true,
+    verificationDate: "2024-01-05",
+    exportReady: true,
+    exportCertifications: ["Bengal School", "National Art Gallery"],
+    artworks: [
+      {
+        id: "abindranath-tagore-bharat-mata",
+        title: "Bharat Mata",
+        category: "Painting",
+        image: "/images/Varli.jpg",
+        infoLink: "https://en.wikipedia.org/wiki/Abanindranath_Tagore",
+        year: "1905",
+        description: "Iconic painting of Bharat Mata (Mother India), a powerful symbol of Indian nationalism and cultural pride, created during the Swadeshi movement.",
+        price: 5000000,
+        isForSale: true,
+        likes: 3456,
+        comments: 234,
+        shares: 456,
+        materials: ["Watercolor on paper", "Nationalist themes"],
+        tags: ["Bharat Mata", "Nationalism", "Swadeshi", "Indian Pride"]
+      },
+      {
+        id: "abindranath-tagore-ghat",
+        title: "Ghat at Benares",
+        category: "Painting",
+        image: "/images/madhubani.jpeg",
+        infoLink: "https://en.wikipedia.org/wiki/Abanindranath_Tagore",
+        year: "1910",
+        description: "Serene depiction of the sacred ghats of Benares, showcasing Tagore's mastery of watercolor and his deep connection to Indian spiritual and cultural traditions.",
+        price: 3200000,
+        isForSale: true,
+        likes: 2134,
+        comments: 145,
+        shares: 267,
+        materials: ["Watercolor", "Spiritual themes"],
+        tags: ["Benares", "Ghats", "Spiritual", "Sacred Places"]
+      }
+    ]
+  },
+  {
+    id: "contemporary-folk-artist",
+    name: "Contemporary Folk Artist",
+    bio: "Modern artists continuing the legacy of traditional Indian folk art forms, preserving ancient techniques while adapting them to contemporary themes and styles.",
+    location: "Various locations across India",
+    profileImage: "/images/Varli.jpg",
+    category: "Painting",
+    coordinates: { lat: 22.5726, lng: 88.3639 }, // Kolkata coordinates
+    isVerified: true,
+    verificationDate: "2024-01-20",
+    exportReady: true,
+    exportCertifications: ["Contemporary Folk Art", "Cultural Heritage"],
+    artworks: [
+      {
+        id: "modern-folk-painting",
+        title: "Modern Folk Painting",
+        category: "Painting",
+        image: "/images/the-ritual-art-of-pithora-wall-paintings-420449_1200x1200.jpg",
+        infoLink: "https://en.wikipedia.org/wiki/Contemporary_Indian_art",
+        year: "2024",
+        description: "Contemporary interpretation of traditional Indian folk art themes, bridging heritage and modernity.",
         price: 95000,
         isForSale: true,
-        likes: 56,
-        comments: 14,
-        shares: 11,
-        materials: ["Bronze", "Traditional casting"],
-        tags: ["Sculpture", "Goddess", "Bronze"]
+        likes: 234,
+        comments: 23,
+        shares: 45,
+        materials: ["Acrylic on canvas", "Contemporary techniques"],
+        tags: ["Contemporary", "Folk Art", "Modern Indian Art"]
       }
     ]
   },
   {
-    id: "kavita-reddy",
-    name: "Kavita Reddy",
-    bio: "Textile artist creating contemporary designs inspired by traditional Indian weaving techniques. Her work bridges the gap between heritage and modern fashion.",
-    location: "Karnataka, India",
-    profileImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    id: "traditional-sculptor",
+    name: "Traditional Sculptor",
+    bio: "Master craftsman specializing in traditional Indian stone and metal sculptures, preserving ancient techniques passed down through generations. Their work reflects the rich heritage of Indian sculptural traditions from various regions.",
+    location: "Mamallapuram, Tamil Nadu, India",
+    profileImage: "/images/madhubani.jpeg",
+    category: "Sculpture",
+    coordinates: { lat: 12.6269, lng: 80.1944 }, // Mamallapuram coordinates
+    isVerified: true,
+    verificationDate: "2024-01-18",
+    exportReady: true,
+    exportCertifications: ["Traditional Craftsmanship", "Cultural Heritage"],
+    artworks: [
+      {
+        id: "stone-elephant-sculpture",
+        title: "Traditional Stone Elephant",
+        category: "Sculpture",
+        image: "/images/Varli.jpg",
+        infoLink: "https://en.wikipedia.org/wiki/Indian_sculpture",
+        year: "2024",
+        description: "Hand-carved stone elephant in traditional South Indian style, showcasing the mastery of ancient sculptural techniques and cultural symbolism.",
+        price: 125000,
+        isForSale: true,
+        likes: 156,
+        comments: 18,
+        shares: 34,
+        materials: ["Granite stone", "Traditional tools"],
+        tags: ["Sculpture", "Elephant", "South Indian", "Traditional"]
+      }
+    ]
+  },
+  {
+    id: "textile-artist",
+    name: "Traditional Textile Artist",
+    bio: "Master weaver and textile artist creating contemporary designs inspired by traditional Indian weaving techniques. Their work bridges the gap between heritage and modern fashion while preserving ancient craftsmanship.",
+    location: "Kanchipuram, Tamil Nadu, India",
+    profileImage: "/images/the-ritual-art-of-pithora-wall-paintings-420449_1200x1200.jpg",
     category: "Textile",
-    coordinates: { lat: 12.9716, lng: 77.5946 }, // Bangalore coordinates
+    coordinates: { lat: 12.8397, lng: 79.7006 }, // Kanchipuram coordinates
+    isVerified: true,
+    verificationDate: "2024-01-22",
+    exportReady: true,
+    exportCertifications: ["Handloom", "Geographical Indication"],
     artworks: [
       {
-        id: "silk-saree",
-        title: "Silk Saree Collection",
+        id: "kanchipuram-silk-saree",
+        title: "Kanchipuram Silk Saree",
         category: "Textile",
-        image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop&crop=center",
-        infoLink: "https://en.wikipedia.org/wiki/Silk_in_India",
-        year: "2023",
-        description: "Handwoven silk sarees with traditional motifs and contemporary designs",
-        price: 45000,
+        image: "/images/madhubani.jpeg",
+        infoLink: "https://en.wikipedia.org/wiki/Kanchipuram_sari",
+        year: "2024",
+        description: "Handwoven Kanchipuram silk saree with traditional motifs and contemporary designs, showcasing the finest Indian textile craftsmanship and cultural heritage.",
+        price: 75000,
         isForSale: true,
-        likes: 78,
-        comments: 21,
-        shares: 16,
+        likes: 189,
+        comments: 25,
+        shares: 42,
         materials: ["Pure silk", "Natural dyes", "Hand embroidery"],
-        tags: ["Textile", "Saree", "Silk", "Handwoven"]
-      },
-      {
-        id: "cotton-fabric",
-        title: "Cotton Fabric Art",
-        category: "Textile",
-        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center",
-        infoLink: "https://en.wikipedia.org/wiki/Textile_arts",
-        year: "2022",
-        description: "Natural cotton fabric with hand-painted traditional patterns",
-        price: 28000,
-        isForSale: true,
-        likes: 42,
-        comments: 11,
-        shares: 8,
-        materials: ["Organic cotton", "Natural dyes", "Hand painting"],
-        tags: ["Textile", "Cotton", "Hand-painted"]
-      }
-    ]
-  },
-  {
-    id: "arjun-verma",
-    name: "Arjun Verma",
-    bio: "Pottery artist specializing in traditional Indian clay work and ceramic art. His creations reflect the rich heritage of Indian pottery traditions.",
-    location: "Uttar Pradesh, India",
-    profileImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    category: "Pottery",
-    coordinates: { lat: 25.3176, lng: 82.9739 }, // Varanasi coordinates
-    artworks: [
-      {
-        id: "clay-pot",
-        title: "Traditional Clay Pot",
-        category: "Pottery",
-        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center",
-        infoLink: "https://en.wikipedia.org/wiki/Pottery",
-        year: "2023",
-        description: "Handcrafted clay pot using traditional wheel throwing techniques",
-        price: 15000,
-        isForSale: true,
-        likes: 35,
-        comments: 9,
-        shares: 6,
-        materials: ["Natural clay", "Traditional wheel"],
-        tags: ["Pottery", "Clay", "Traditional"]
-      },
-      {
-        id: "ceramic-vase",
-        title: "Ceramic Vase",
-        category: "Pottery",
-        image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop&crop=center",
-        infoLink: "https://en.wikipedia.org/wiki/Ceramic_art",
-        year: "2022",
-        description: "Glazed ceramic vase with traditional Indian motifs",
-        price: 22000,
-        isForSale: true,
-        likes: 48,
-        comments: 12,
-        shares: 9,
-        materials: ["Ceramic", "Glaze", "Traditional motifs"],
-        tags: ["Pottery", "Ceramic", "Vase"]
-      }
-    ]
-  },
-  {
-    id: "aditi-joshi",
-    name: "Aditi Joshi",
-    bio: "Contemporary artist blending traditional Indian folk art with modern abstract expressionism. Her work explores cultural identity and heritage.",
-    location: "Maharashtra, India",
-    profileImage: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
-    category: "Painting",
-    coordinates: { lat: 19.0760, lng: 72.8777 }, // Mumbai coordinates
-    artworks: [
-      {
-        id: "abstract-folk",
-        title: "Abstract Folk Fusion",
-        category: "Painting",
-        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center",
-        infoLink: "https://en.wikipedia.org/wiki/Abstract_art",
-        year: "2023",
-        description: "Modern abstract interpretation of traditional Indian folk motifs",
-        price: 35000,
-        isForSale: true,
-        likes: 62,
-        comments: 16,
-        shares: 13,
-        materials: ["Acrylic", "Canvas", "Mixed media"],
-        tags: ["Painting", "Abstract", "Folk fusion"]
-      }
-    ]
-  },
-  {
-    id: "vikram-nair",
-    name: "Vikram Nair",
-    bio: "Jewelry designer creating contemporary pieces inspired by traditional Indian craftsmanship. His work celebrates the beauty of Indian gemstones and metals.",
-    location: "Kerala, India",
-    profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-    category: "Jewelry",
-    coordinates: { lat: 10.8505, lng: 76.2711 }, // Thrissur coordinates
-    artworks: [
-      {
-        id: "gold-necklace",
-        title: "Traditional Gold Necklace",
-        category: "Jewelry",
-        image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop&crop=center",
-        infoLink: "https://en.wikipedia.org/wiki/Indian_jewelry",
-        year: "2023",
-        description: "Handcrafted gold necklace with traditional Indian design elements",
-        price: 180000,
-        isForSale: true,
-        likes: 95,
-        comments: 28,
-        shares: 22,
-        materials: ["22K Gold", "Precious stones", "Traditional craftsmanship"],
-        tags: ["Jewelry", "Gold", "Traditional"]
-      }
-    ]
-  },
-  {
-    id: "shreya-kapoor",
-    name: "Shreya Kapoor",
-    bio: "Mixed media artist exploring the intersection of traditional Indian art forms and contemporary digital media. Her work challenges conventional boundaries.",
-    location: "Delhi, India",
-    profileImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-    category: "Other",
-    coordinates: { lat: 28.7041, lng: 77.1025 }, // Delhi coordinates
-    artworks: [
-      {
-        id: "digital-folk",
-        title: "Digital Folk Art",
-        category: "Other",
-        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center",
-        infoLink: "https://en.wikipedia.org/wiki/Digital_art",
-        year: "2023",
-        description: "Digital interpretation of traditional Indian folk art patterns",
-        price: 28000,
-        isForSale: true,
-        likes: 41,
-        comments: 10,
-        shares: 7,
-        materials: ["Digital media", "Traditional patterns"],
-        tags: ["Digital", "Folk art", "Contemporary"]
-      }
-    ]
-  },
-  {
-    id: "sanjay-bhatia",
-    name: "Sanjay Bhatia",
-    bio: "Master craftsman specializing in traditional Indian woodwork and furniture making. His pieces reflect the rich heritage of Indian carpentry.",
-    location: "Punjab, India",
-    profileImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    category: "Other",
-    coordinates: { lat: 31.5204, lng: 74.3587 }, // Amritsar coordinates
-    artworks: [
-      {
-        id: "wooden-chest",
-        title: "Carved Wooden Chest",
-        category: "Other",
-        image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop&crop=center",
-        infoLink: "https://en.wikipedia.org/wiki/Wood_carving",
-        year: "2023",
-        description: "Hand-carved wooden chest with traditional Indian motifs",
-        price: 65000,
-        isForSale: true,
-        likes: 53,
-        comments: 14,
-        shares: 10,
-        materials: ["Teak wood", "Traditional carving tools"],
-        tags: ["Woodwork", "Carved", "Traditional"]
+        tags: ["Kanchipuram", "Silk", "Saree", "Handwoven"]
       }
     ]
   },
@@ -348,7 +332,7 @@ export const artistsData = [
     name: "Priya Deshmukh",
     bio: "Contemporary painter exploring themes of Indian mythology and spirituality through modern artistic techniques. Her work bridges ancient wisdom with contemporary expression.",
     location: "Madhya Pradesh, India",
-    profileImage: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+    profileImage: "/images/Varli.jpg",
     category: "Painting",
     coordinates: { lat: 23.1793, lng: 75.7849 }, // Indore coordinates
     artworks: [
@@ -356,7 +340,7 @@ export const artistsData = [
         id: "mythological-scene",
         title: "Mythological Scene",
         category: "Painting",
-        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center",
+        image: "/images/the-ritual-art-of-pithora-wall-paintings-420449_1200x1200.jpg",
         infoLink: "https://en.wikipedia.org/wiki/Indian_mythology",
         year: "2023",
         description: "Contemporary interpretation of traditional Indian mythological themes",
@@ -375,7 +359,7 @@ export const artistsData = [
     name: "Rohit Kulkarni",
     bio: "Sculptor working with various materials including stone, metal, and clay. His work explores the relationship between traditional Indian art forms and modern sculpture.",
     location: "Karnataka, India",
-    profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    profileImage: "/images/madhubani.jpeg",
     category: "Sculpture",
     coordinates: { lat: 12.9716, lng: 77.5946 }, // Bangalore coordinates
     artworks: [
@@ -383,7 +367,7 @@ export const artistsData = [
         id: "metal-sculpture",
         title: "Metal Sculpture",
         category: "Sculpture",
-        image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop&crop=center",
+        image: "/images/Varli.jpg",
         infoLink: "https://en.wikipedia.org/wiki/Metalworking",
         year: "2023",
         description: "Contemporary metal sculpture inspired by traditional Indian forms",
@@ -402,7 +386,7 @@ export const artistsData = [
     name: "Neha Sinha",
     bio: "Textile designer creating contemporary fashion pieces inspired by traditional Indian weaving and embroidery techniques. Her work celebrates Indian craftsmanship.",
     location: "West Bengal, India",
-    profileImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    profileImage: "/images/the-ritual-art-of-pithora-wall-paintings-420449_1200x1200.jpg",
     category: "Textile",
     coordinates: { lat: 22.5726, lng: 88.3639 }, // Kolkata coordinates
     artworks: [
@@ -410,7 +394,7 @@ export const artistsData = [
         id: "embroidery-art",
         title: "Traditional Embroidery",
         category: "Textile",
-        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center",
+        image: "/images/madhubani.jpeg",
         infoLink: "https://en.wikipedia.org/wiki/Embroidery",
         year: "2023",
         description: "Hand-embroidered fabric showcasing traditional Indian needlework",
@@ -429,7 +413,7 @@ export const artistsData = [
     name: "Anil Gupta",
     bio: "Pottery artist specializing in traditional Indian ceramic techniques. His work reflects the rich heritage of Indian pottery and ceramic arts.",
     location: "Gujarat, India",
-    profileImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    profileImage: "/images/Varli.jpg",
     category: "Pottery",
     coordinates: { lat: 23.0225, lng: 72.5714 }, // Ahmedabad coordinates
     artworks: [
@@ -437,7 +421,7 @@ export const artistsData = [
         id: "traditional-pottery",
         title: "Traditional Pottery",
         category: "Pottery",
-        image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop&crop=center",
+        image: "/images/madhubani.jpeg",
         infoLink: "https://en.wikipedia.org/wiki/Pottery",
         year: "2023",
         description: "Traditional Indian pottery using age-old techniques and designs",
@@ -456,7 +440,7 @@ export const artistsData = [
     name: "Manisha Rao",
     bio: "Contemporary artist exploring themes of Indian culture and identity through various media. Her work challenges traditional boundaries while celebrating heritage.",
     location: "Tamil Nadu, India",
-    profileImage: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+    profileImage: "/images/the-ritual-art-of-pithora-wall-paintings-420449_1200x1200.jpg",
     category: "Other",
     coordinates: { lat: 13.0827, lng: 80.2707 }, // Chennai coordinates
     artworks: [
@@ -464,7 +448,7 @@ export const artistsData = [
         id: "mixed-media",
         title: "Mixed Media Art",
         category: "Other",
-        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center",
+        image: "/images/Varli.jpg",
         infoLink: "https://en.wikipedia.org/wiki/Mixed_media",
         year: "2023",
         description: "Contemporary mixed media artwork exploring Indian cultural themes",
@@ -483,7 +467,7 @@ export const artistsData = [
     name: "Deepak Menon",
     bio: "Jewelry designer creating contemporary pieces that celebrate Indian craftsmanship and gemstone traditions. His work bridges heritage and modern fashion.",
     location: "Kerala, India",
-    profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    profileImage: "/images/madhubani.jpeg",
     category: "Jewelry",
     coordinates: { lat: 10.8505, lng: 76.2711 }, // Thrissur coordinates
     artworks: [
@@ -491,7 +475,7 @@ export const artistsData = [
         id: "silver-jewelry",
         title: "Silver Jewelry Collection",
         category: "Jewelry",
-        image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop&crop=center",
+        image: "/images/the-ritual-art-of-pithora-wall-paintings-420449_1200x1200.jpg",
         infoLink: "https://en.wikipedia.org/wiki/Indian_jewelry",
         year: "2023",
         description: "Contemporary jewelry featuring traditional Indian gemstones and designs",
@@ -510,7 +494,7 @@ export const artistsData = [
     name: "Sunita Pillai",
     bio: "Textile artist specializing in traditional Indian weaving techniques. Her work preserves ancient methods while creating contemporary designs.",
     location: "Karnataka, India",
-    profileImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    profileImage: "/images/Varli.jpg",
     category: "Textile",
     coordinates: { lat: 12.9716, lng: 77.5946 }, // Bangalore coordinates
     artworks: [
@@ -518,7 +502,7 @@ export const artistsData = [
         id: "handloom-fabric",
         title: "Handloom Fabric",
         category: "Textile",
-        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center",
+        image: "/images/madhubani.jpeg",
         infoLink: "https://en.wikipedia.org/wiki/Handloom",
         year: "2023",
         description: "Handwoven fabric using traditional Indian handloom techniques",
@@ -537,7 +521,7 @@ export const artistsData = [
     name: "Rajesh Kumar",
     bio: "Sculptor working with stone and metal to create contemporary interpretations of traditional Indian art forms. His work explores cultural heritage and modern expression.",
     location: "Rajasthan, India",
-    profileImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    profileImage: "/images/the-ritual-art-of-pithora-wall-paintings-420449_1200x1200.jpg",
     category: "Sculpture",
     coordinates: { lat: 26.9124, lng: 75.7873 }, // Jaipur coordinates
     artworks: [
@@ -545,7 +529,7 @@ export const artistsData = [
         id: "stone-sculpture",
         title: "Stone Sculpture",
         category: "Sculpture",
-        image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop&crop=center",
+        image: "/images/Varli.jpg",
         infoLink: "https://en.wikipedia.org/wiki/Stone_sculpture",
         year: "2023",
         description: "Contemporary stone sculpture inspired by traditional Indian forms",
@@ -564,7 +548,7 @@ export const artistsData = [
     name: "Alok Patil",
     bio: "Contemporary painter exploring themes of Indian spirituality and philosophy through modern artistic techniques. His work bridges ancient wisdom with contemporary expression.",
     location: "Maharashtra, India",
-    profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    profileImage: "/images/madhubani.jpeg",
     category: "Painting",
     coordinates: { lat: 19.0760, lng: 72.8777 }, // Mumbai coordinates
     artworks: [
@@ -572,7 +556,7 @@ export const artistsData = [
         id: "spiritual-art",
         title: "Spiritual Art",
         category: "Painting",
-        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center",
+        image: "/images/the-ritual-art-of-pithora-wall-paintings-420449_1200x1200.jpg",
         infoLink: "https://en.wikipedia.org/wiki/Spiritual_art",
         year: "2023",
         description: "Contemporary painting exploring Indian spiritual and philosophical themes",
@@ -591,7 +575,7 @@ export const artistsData = [
     name: "Sneha Banerjee",
     bio: "Mixed media artist creating contemporary pieces that celebrate Indian cultural heritage. Her work explores identity, tradition, and modernity.",
     location: "West Bengal, India",
-    profileImage: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+    profileImage: "/images/Varli.jpg",
     category: "Other",
     coordinates: { lat: 22.5726, lng: 88.3639 }, // Kolkata coordinates
     artworks: [
@@ -599,7 +583,7 @@ export const artistsData = [
         id: "cultural-heritage",
         title: "Cultural Heritage",
         category: "Other",
-        image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop&crop=center",
+        image: "/images/madhubani.jpeg",
         infoLink: "https://en.wikipedia.org/wiki/Cultural_heritage",
         year: "2023",
         description: "Mixed media artwork celebrating Indian cultural heritage and traditions",
@@ -618,7 +602,7 @@ export const artistsData = [
     name: "Ajay Chauhan",
     bio: "Pottery artist specializing in traditional Indian ceramic techniques and contemporary designs. His work reflects the evolution of Indian pottery traditions.",
     location: "Uttar Pradesh, India",
-    profileImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    profileImage: "/images/the-ritual-art-of-pithora-wall-paintings-420449_1200x1200.jpg",
     category: "Pottery",
     coordinates: { lat: 25.3176, lng: 82.9739 }, // Varanasi coordinates
     artworks: [
@@ -626,7 +610,7 @@ export const artistsData = [
         id: "contemporary-pottery",
         title: "Contemporary Pottery",
         category: "Pottery",
-        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center",
+        image: "/images/Varli.jpg",
         infoLink: "https://en.wikipedia.org/wiki/Pottery",
         year: "2023",
         description: "Contemporary pottery pieces inspired by traditional Indian techniques",
@@ -645,7 +629,7 @@ export const artistsData = [
     name: "Divya Mishra",
     bio: "Jewelry designer creating contemporary pieces that celebrate Indian craftsmanship and gemstone traditions. Her work bridges heritage and modern fashion.",
     location: "Rajasthan, India",
-    profileImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    profileImage: "/images/madhubani.jpeg",
     category: "Jewelry",
     coordinates: { lat: 26.9124, lng: 75.7873 }, // Jaipur coordinates
     artworks: [
@@ -653,7 +637,7 @@ export const artistsData = [
         id: "gemstone-jewelry",
         title: "Gemstone Jewelry",
         category: "Jewelry",
-        image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop&crop=center",
+        image: "/images/the-ritual-art-of-pithora-wall-paintings-420449_1200x1200.jpg",
         infoLink: "https://en.wikipedia.org/wiki/Gemstone",
         year: "2023",
         description: "Contemporary jewelry featuring traditional Indian gemstones and designs",
@@ -679,7 +663,9 @@ export const getAllArtworks = () => {
       artistProfile: `/artist/${artist.id}`,
       artistImage: artist.profileImage,
       artistLocation: artist.location,
-      artistCoordinates: artist.coordinates
+      artistCoordinates: artist.coordinates,
+      isVerified: artist.isVerified,
+      exportReady: artist.exportReady
     }))
   );
 };
@@ -738,4 +724,19 @@ export const calculateDistance = (lat1, lng1, lat2, lng2) => {
 export const getNearbyPlaces = (category, lat, lng, radius = 50) => {
   const artworks = getArtworksByLocation(lat, lng, radius);
   return artworks.filter(artwork => artwork.category === category);
+};
+
+// Get verified artists
+export const getVerifiedArtists = () => {
+  return artistsData.filter(artist => artist.isVerified);
+};
+
+// Get export-ready artworks
+export const getExportReadyArtworks = () => {
+  return getAllArtworks().filter(artwork => artwork.exportReady);
+};
+
+// Get artists by verification status
+export const getArtistsByVerificationStatus = (isVerified) => {
+  return artistsData.filter(artist => artist.isVerified === isVerified);
 };

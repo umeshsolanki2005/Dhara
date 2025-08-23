@@ -125,7 +125,7 @@ const ArtCard = ({ artwork, onLike, onWishlist, onComment, onShare, onBuy }) => 
         <CardMedia
           component="img"
           height="250"
-          image={artwork.image}
+          image={artwork.imageUrl || artwork.image}
           alt={artwork.title}
           sx={{
             objectFit: 'cover',
@@ -152,7 +152,6 @@ const ArtCard = ({ artwork, onLike, onWishlist, onComment, onShare, onBuy }) => 
                   color: 'primary.dark',
                 },
               }}
-              onClick={() => handleExternalLink(artwork.infoLink)}
             >
               {artwork.title}
             </Typography>
@@ -179,7 +178,7 @@ const ArtCard = ({ artwork, onLike, onWishlist, onComment, onShare, onBuy }) => 
                   fontFamily: '"Poppins", sans-serif',
                 }}
               >
-                {formatPrice(artwork.price)}
+                ₹{artwork.price?.toLocaleString() || artwork.price}
               </Typography>
               <Chip
                 label="For Sale"
@@ -204,33 +203,19 @@ const ArtCard = ({ artwork, onLike, onWishlist, onComment, onShare, onBuy }) => 
             {artwork.description}
           </Typography>
 
-          {/* Materials and Tags */}
-          {artwork.materials && artwork.materials.length > 0 && (
+          {/* Year Created */}
+          {artwork.yearCreated && (
             <Box sx={{ mb: 2 }}>
               <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>
-                Materials: {artwork.materials.join(', ')}
+                Created: {artwork.yearCreated}
               </Typography>
-            </Box>
-          )}
-
-          {artwork.tags && artwork.tags.length > 0 && (
-            <Box sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {artwork.tags.slice(0, 3).map((tag, index) => (
-                <Chip
-                  key={index}
-                  label={tag}
-                  size="small"
-                  variant="outlined"
-                  sx={{ fontSize: '0.6rem', height: 20 }}
-                />
-              ))}
             </Box>
           )}
 
           {/* Artist Information */}
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
             <Avatar
-              src={artwork.artistImage}
+              src={artwork.artist?.profileImage}
               sx={{
                 width: 32,
                 height: 32,
@@ -245,7 +230,7 @@ const ArtCard = ({ artwork, onLike, onWishlist, onComment, onShare, onBuy }) => 
               <Typography
                 variant="body2"
                 component={RouterLink}
-                to={artwork.artistProfile}
+                to={`/artist/${artwork.artist?._id || artwork.artist}`}
                 sx={{
                   color: 'primary.main',
                   textDecoration: 'none',
@@ -257,7 +242,7 @@ const ArtCard = ({ artwork, onLike, onWishlist, onComment, onShare, onBuy }) => 
                   },
                 }}
               >
-                {artwork.artist}
+                {artwork.artist?.artistName || artwork.artist?.username || 'Unknown Artist'}
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <LocationIcon sx={{ fontSize: 14, mr: 0.5, color: 'text.secondary' }} />
@@ -268,7 +253,7 @@ const ArtCard = ({ artwork, onLike, onWishlist, onComment, onShare, onBuy }) => 
                     fontFamily: '"Poppins", sans-serif',
                   }}
                 >
-                  {artwork.artistLocation}
+                  {artwork.artist?.location || 'Location not specified'}
                 </Typography>
               </Box>
             </Box>
@@ -303,7 +288,7 @@ const ArtCard = ({ artwork, onLike, onWishlist, onComment, onShare, onBuy }) => 
                     },
                   }}
                 >
-                  <Badge badgeContent={artwork.comments} color="primary">
+                  <Badge badgeContent={artwork.comments || 0} color="primary">
                     <CommentIcon fontSize="small" />
                   </Badge>
                 </IconButton>
@@ -373,22 +358,18 @@ const ArtCard = ({ artwork, onLike, onWishlist, onComment, onShare, onBuy }) => 
                 fontFamily: '"Poppins", sans-serif',
               }}
             >
-              {artwork.likes} likes • {artwork.comments} comments • {artwork.shares} shares
+              {artwork.likes || 0} likes • {artwork.comments || 0} comments • {artwork.shares || 0} shares
             </Typography>
             
-            <IconButton
-              size="small"
-              onClick={() => handleExternalLink(artwork.infoLink)}
+            <Typography
+              variant="caption"
+              color="text.secondary"
               sx={{
-                color: 'primary.main',
-                '&:hover': {
-                  bgcolor: 'primary.main',
-                  color: 'white',
-                },
+                fontFamily: '"Poppins", sans-serif',
               }}
             >
-              <OpenInNewIcon fontSize="small" />
-            </IconButton>
+              {new Date(artwork.createdAt).toLocaleDateString()}
+            </Typography>
           </Box>
         </CardContent>
       </Card>

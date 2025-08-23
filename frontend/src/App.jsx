@@ -8,6 +8,7 @@ import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import UploadPage from './pages/UploadPage';
 import ArtistProfilePage from './pages/ArtistProfilePage';
+import UserProfilePage from './pages/UserProfilePage';
 import WishlistPage from './pages/WishlistPage';
 import MapPage from './pages/MapPage';
 
@@ -35,6 +36,14 @@ function App() {
           element={
             <ProtectedRoute>
               <UploadPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <UserProfilePage />
             </ProtectedRoute>
           }
         />
