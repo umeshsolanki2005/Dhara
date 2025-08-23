@@ -34,10 +34,5 @@
     "MONGODB_URI": "mongodb+srv://dhara:dhara123@cluster1.r3h1ej2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1",
     "JWT_SECRET": "dhara-folk-art-super-secret-jwt-key-2025",
     "NODE_ENV": "production"
-  },
-  "functions": {
-    "backend/server.js": {
-      "maxDuration": 30
-    }
   }
 }
