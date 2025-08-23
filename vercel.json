@@ -1,31 +1,39 @@
 {
   "version": 2,
+  "buildCommand": "npm run build:all",
+  "installCommand": "npm install",
   "builds": [
+    {
+      "src": "backend/server.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "backend/**/*"
+        ]
+      }
+    },
     {
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "frontend/dist"
+        "distDir": "dist"
       }
-    },
-    {
-      "src": "backend/server.js",
-      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "backend/server.js"
+      "dest": "/backend/server.js"
     },
     {
       "src": "/(.*)",
-      "dest": "frontend/$1"
+      "dest": "/frontend/$1"
     }
   ],
   "env": {
-    "MONGODB_URI": "@mongodb-uri",
-    "JWT_SECRET": "@jwt-secret"
+    "MONGODB_URI": "mongodb+srv://dhara:dhara123@cluster1.r3h1ej2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1",
+    "JWT_SECRET": "dhara-folk-art-super-secret-jwt-key-2025",
+    "NODE_ENV": "production"
   },
   "functions": {
     "backend/server.js": {

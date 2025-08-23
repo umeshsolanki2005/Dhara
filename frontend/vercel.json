@@ -12,7 +12,7 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "https://your-backend-url.vercel.app/api/$1"
+      "dest": "/api/$1"
     },
     {
       "src": "/(.*)",
@@ -20,12 +20,6 @@
     }
   ],
   "env": {
-    "VITE_API_URL": "https://your-backend-url.vercel.app"
-  },
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ]
+    "VITE_API_URL": "/api"
+  }
 }
