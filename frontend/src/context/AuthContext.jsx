@@ -33,9 +33,34 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.get('/api/auth/me');
       setUser(response.data.user);
+      // If token refresh is provided, update it
+      if (response.data.token) {
+        setToken(response.data.token);
+        localStorage.setItem('token', response.data.token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+      }
     } catch (error) {
       console.error('Auth check failed:', error);
-      logout();
+      if (error.response?.data?.message === 'jwt expired') {
+        // Token expired, try to refresh
+        try {
+          const refreshResponse = await axios.post('/api/auth/refresh-token', {
+            token: token
+          });
+          const { token: newToken } = refreshResponse.data;
+          setToken(newToken);
+          localStorage.setItem('token', newToken);
+          axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+          // Retry getting user data
+          const userResponse = await axios.get('/api/auth/me');
+          setUser(userResponse.data.user);
+        } catch (refreshError) {
+          console.error('Token refresh failed:', refreshError);
+          logout();
+        }
+      } else {
+        logout();
+      }
     } finally {
       setLoading(false);
     }
