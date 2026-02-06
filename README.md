@@ -9,7 +9,7 @@
 - Indian folk art background patterns (Madhubani, Warli, Mandala)
 - Local artwork showcase with Wikipedia integration
 - Cultural theme with warm earthy tones
-- Responsive design with Material UI components
+- Responsive design with Material UI components.
 
 ### 🔍 **Home Page (After Login)**
 - **Search Functionality**: Search artworks by name or artist by name
