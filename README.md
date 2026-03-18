@@ -1,4 +1,4 @@
-# 🎨 Dhara - Indian Folk Art Gallery..
+# 🎨 Dhara - Indian Folk Art Gallery...
 
 **Dhara** is a comprehensive folk art gallery website celebrating Indian culture and art. The platform allows artists to showcase their work and users to discover authentic Indian folk art forms..
 
